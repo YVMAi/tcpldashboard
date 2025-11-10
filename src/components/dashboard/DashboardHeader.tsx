@@ -1,8 +1,10 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { FileDown, FileSpreadsheet, Image } from "lucide-react";
+import { FileDown, FileSpreadsheet } from "lucide-react";
+import { useCurrency } from "@/contexts/CurrencyContext";
 
 export const DashboardHeader = () => {
+  const { currencyUnit, setCurrencyUnit } = useCurrency();
   const currentDate = new Date().toLocaleString('en-IN', {
     day: '2-digit',
     month: 'short',
@@ -25,23 +27,20 @@ export const DashboardHeader = () => {
             <SelectTrigger className="w-[120px] h-8 text-xs bg-card text-card-foreground">
               <SelectValue placeholder="Financial Year" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-card">
               <SelectItem value="fy26">FY 2026</SelectItem>
               <SelectItem value="fy25">FY 2025</SelectItem>
               <SelectItem value="fy24">FY 2024</SelectItem>
             </SelectContent>
           </Select>
 
-          <Select defaultValue="all">
-            <SelectTrigger className="w-[140px] h-8 text-xs bg-card text-card-foreground">
-              <SelectValue placeholder="Business Unit" />
+          <Select value={currencyUnit} onValueChange={(value) => setCurrencyUnit(value as "cr" | "lakhs")}>
+            <SelectTrigger className="w-[120px] h-8 text-xs bg-card text-card-foreground">
+              <SelectValue placeholder="Currency" />
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Units</SelectItem>
-              <SelectItem value="ams">AMS & O&M</SelectItem>
-              <SelectItem value="engineering">Engineering</SelectItem>
-              <SelectItem value="advisory">Advisory</SelectItem>
-              <SelectItem value="saas">SaaS</SelectItem>
+            <SelectContent className="bg-card">
+              <SelectItem value="cr">INR Cr</SelectItem>
+              <SelectItem value="lakhs">INR Lakhs</SelectItem>
             </SelectContent>
           </Select>
 
@@ -53,10 +52,6 @@ export const DashboardHeader = () => {
             <Button variant="secondary" size="sm" className="gap-1.5 h-8 px-2.5 text-xs">
               <FileSpreadsheet className="h-3.5 w-3.5" />
               Excel
-            </Button>
-            <Button variant="secondary" size="sm" className="gap-1.5 h-8 px-2.5 text-xs">
-              <Image className="h-3.5 w-3.5" />
-              Image
             </Button>
           </div>
         </div>
