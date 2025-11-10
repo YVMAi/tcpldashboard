@@ -24,16 +24,16 @@ const complianceMetrics = [
 
 export const PerformanceSection = () => {
   return (
-    <div className="space-y-6">
-      <Card className="p-6">
-        <div className="flex items-center gap-2 mb-4">
-          <AlertTriangle className="h-5 w-5 text-warning" />
-          <h2 className="text-xl font-bold text-foreground">HSE Incidents</h2>
+    <div className="space-y-3">
+      <Card className="p-3">
+        <div className="flex items-center gap-2 mb-2">
+          <AlertTriangle className="h-4 w-4 text-warning" />
+          <h2 className="text-base font-bold text-foreground">HSE Incidents</h2>
         </div>
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow>
+              <TableRow className="text-xs">
                 <TableHead>Client</TableHead>
                 <TableHead>Plant</TableHead>
                 <TableHead>Details</TableHead>
@@ -42,11 +42,11 @@ export const PerformanceSection = () => {
             </TableHeader>
             <TableBody>
               {hseIncidents.map((incident, idx) => (
-                <TableRow key={idx}>
-                  <TableCell className="font-medium">{incident.client}</TableCell>
-                  <TableCell>{incident.plant}</TableCell>
-                  <TableCell>{incident.details}</TableCell>
-                  <TableCell>
+                <TableRow key={idx} className="text-xs">
+                  <TableCell className="font-medium py-2">{incident.client}</TableCell>
+                  <TableCell className="py-2">{incident.plant}</TableCell>
+                  <TableCell className="py-2">{incident.details}</TableCell>
+                  <TableCell className="py-2">
                     <Badge variant={incident.severity === 'low' ? 'default' : incident.severity === 'medium' ? 'secondary' : 'destructive'}>
                       {incident.severity.toUpperCase()}
                     </Badge>
@@ -58,12 +58,12 @@ export const PerformanceSection = () => {
         </div>
       </Card>
 
-      <Card className="p-6">
-        <h2 className="text-xl font-bold mb-4 text-foreground">Generation Performance (MTD)</h2>
+      <Card className="p-3">
+        <h2 className="text-base font-bold mb-2 text-foreground">Generation Performance (MTD)</h2>
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow>
+              <TableRow className="text-xs">
                 <TableHead>Client</TableHead>
                 <TableHead>MTD Generation (%)</TableHead>
                 <TableHead>Remarks</TableHead>
@@ -71,20 +71,20 @@ export const PerformanceSection = () => {
             </TableHeader>
             <TableBody>
               {generationData.map((row, idx) => (
-                <TableRow key={idx}>
-                  <TableCell className="font-medium">{row.client}</TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-3">
+                <TableRow key={idx} className="text-xs">
+                  <TableCell className="font-medium py-2">{row.client}</TableCell>
+                  <TableCell className="py-2">
+                    <div className="flex items-center gap-2">
                       <Progress 
                         value={row.mtdGeneration} 
-                        className={`h-2 w-32 ${row.mtdGeneration < 80 ? '[&>div]:bg-destructive' : row.mtdGeneration < 90 ? '[&>div]:bg-warning' : '[&>div]:bg-success'}`}
+                        className={`h-1.5 w-24 ${row.mtdGeneration < 80 ? '[&>div]:bg-destructive' : row.mtdGeneration < 90 ? '[&>div]:bg-warning' : '[&>div]:bg-success'}`}
                       />
-                      <span className={`font-medium ${row.mtdGeneration < 80 ? 'text-destructive' : row.mtdGeneration < 90 ? 'text-warning' : 'text-success'}`}>
+                      <span className={`font-medium text-[10px] ${row.mtdGeneration < 80 ? 'text-destructive' : row.mtdGeneration < 90 ? 'text-warning' : 'text-success'}`}>
                         {row.mtdGeneration}%
                       </span>
                     </div>
                   </TableCell>
-                  <TableCell className="text-muted-foreground">{row.remarks}</TableCell>
+                  <TableCell className="text-muted-foreground py-2">{row.remarks}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -92,16 +92,16 @@ export const PerformanceSection = () => {
         </div>
       </Card>
 
-      <Card className="p-6">
-        <h2 className="text-xl font-bold mb-4 text-foreground">Compliance Metrics</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <Card className="p-3">
+        <h2 className="text-base font-bold mb-2 text-foreground">Compliance Metrics</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {complianceMetrics.map((metric, idx) => (
-            <div key={idx} className="space-y-3">
+            <div key={idx} className="space-y-2">
               <div className="flex justify-between items-center">
-                <span className="text-sm font-medium text-foreground">{metric.metric}</span>
-                <span className="text-sm font-bold text-accent">{metric.value}%</span>
+                <span className="text-xs font-medium text-foreground">{metric.metric}</span>
+                <span className="text-xs font-bold text-accent">{metric.value}%</span>
               </div>
-              <Progress value={metric.value} className="h-3" />
+              <Progress value={metric.value} className="h-2" />
             </div>
           ))}
         </div>

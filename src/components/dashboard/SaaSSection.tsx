@@ -31,13 +31,13 @@ export const SaaSSection = () => {
         { label: "Actual Revenue", value: "₹214L", highlight: true },
       ]}
     >
-      <div className="space-y-6">
+      <div className="space-y-4">
         <div>
-          <h3 className="text-sm font-semibold mb-3 text-foreground">Product-wise Revenue</h3>
+          <h3 className="text-xs font-semibold mb-2 text-foreground">Product-wise Revenue</h3>
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
-                <TableRow>
+                <TableRow className="text-xs">
                   <TableHead>Product</TableHead>
                   <TableHead className="text-right">Expected (₹L)</TableHead>
                   <TableHead className="text-right">Actual (₹L)</TableHead>
@@ -49,14 +49,14 @@ export const SaaSSection = () => {
                 {saasProducts.map((row, idx) => {
                   const variance = ((row.actual - row.expected) / row.expected * 100).toFixed(1);
                   return (
-                    <TableRow key={idx}>
-                      <TableCell className="font-medium">{row.product}</TableCell>
-                      <TableCell className="text-right">₹{row.expected}L</TableCell>
-                      <TableCell className="text-right">₹{row.actual}L</TableCell>
-                      <TableCell className={`text-right font-medium ${parseFloat(variance) > 0 ? 'text-success' : 'text-destructive'}`}>
+                    <TableRow key={idx} className="text-xs">
+                      <TableCell className="font-medium py-2">{row.product}</TableCell>
+                      <TableCell className="text-right py-2">₹{row.expected}L</TableCell>
+                      <TableCell className="text-right py-2">₹{row.actual}L</TableCell>
+                      <TableCell className={`text-right font-medium py-2 ${parseFloat(variance) > 0 ? 'text-success' : 'text-destructive'}`}>
                         {parseFloat(variance) > 0 ? '+' : ''}{variance}%
                       </TableCell>
-                      <TableCell className="text-center">{row.clients}</TableCell>
+                      <TableCell className="text-center py-2">{row.clients}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -66,8 +66,8 @@ export const SaaSSection = () => {
         </div>
 
         <div>
-          <h3 className="text-sm font-semibold mb-3 text-foreground">Monthly Billing Trend</h3>
-          <ResponsiveContainer width="100%" height={300}>
+          <h3 className="text-xs font-semibold mb-2 text-foreground">Monthly Billing Trend</h3>
+          <ResponsiveContainer width="100%" height={200}>
             <LineChart data={monthlyData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />

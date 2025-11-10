@@ -15,9 +15,9 @@ export const MetricCard = ({ title, value, subtitle, variance, icon, trend }: Me
   const getTrendIcon = () => {
     if (variance === undefined) return null;
     
-    if (variance > 0) return <TrendingUp className="h-4 w-4" />;
-    if (variance < 0) return <TrendingDown className="h-4 w-4" />;
-    return <Minus className="h-4 w-4" />;
+    if (variance > 0) return <TrendingUp className="h-3 w-3" />;
+    if (variance < 0) return <TrendingDown className="h-3 w-3" />;
+    return <Minus className="h-3 w-3" />;
   };
 
   const getTrendColor = () => {
@@ -28,18 +28,18 @@ export const MetricCard = ({ title, value, subtitle, variance, icon, trend }: Me
   };
 
   return (
-    <Card className="p-4 hover:shadow-md transition-shadow">
-      <div className="flex items-start justify-between mb-3">
-        <h3 className="text-sm font-medium text-muted-foreground">{title}</h3>
+    <Card className="p-3 hover:shadow-md transition-shadow">
+      <div className="flex items-start justify-between mb-2">
+        <h3 className="text-xs font-medium text-muted-foreground">{title}</h3>
         {icon && <div className="text-primary">{icon}</div>}
       </div>
       
-      <div className="space-y-1">
-        <p className="text-2xl font-bold text-foreground">{value}</p>
-        {subtitle && <p className="text-xs text-muted-foreground">{subtitle}</p>}
+      <div className="space-y-0.5">
+        <p className="text-xl font-bold text-foreground">{value}</p>
+        {subtitle && <p className="text-[10px] text-muted-foreground">{subtitle}</p>}
         
         {variance !== undefined && (
-          <div className={cn("flex items-center gap-1 text-sm font-medium", getTrendColor())}>
+          <div className={cn("flex items-center gap-0.5 text-xs font-medium", getTrendColor())}>
             {getTrendIcon()}
             <span>{Math.abs(variance)}%</span>
           </div>

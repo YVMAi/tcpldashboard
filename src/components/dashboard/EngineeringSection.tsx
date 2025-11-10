@@ -30,14 +30,14 @@ export const EngineeringSection = () => {
         { label: "Revenue (YTD)", value: "₹82 Cr" },
       ]}
     >
-      <div className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <h3 className="text-sm font-semibold mb-3 text-foreground">Active Mandates</h3>
+            <h3 className="text-xs font-semibold mb-2 text-foreground">Active Mandates</h3>
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
-                  <TableRow>
+                  <TableRow className="text-xs">
                     <TableHead>Mandate</TableHead>
                     <TableHead>Client</TableHead>
                     <TableHead>Completion</TableHead>
@@ -45,13 +45,13 @@ export const EngineeringSection = () => {
                 </TableHeader>
                 <TableBody>
                   {engineeringData.map((row, idx) => (
-                    <TableRow key={idx}>
-                      <TableCell className="font-medium">{row.mandate}</TableCell>
-                      <TableCell>{row.client}</TableCell>
-                      <TableCell>
+                    <TableRow key={idx} className="text-xs">
+                      <TableCell className="font-medium py-2">{row.mandate}</TableCell>
+                      <TableCell className="py-2">{row.client}</TableCell>
+                      <TableCell className="py-2">
                         <div className="flex items-center gap-2">
-                          <Progress value={row.completion} className="h-2 w-20" />
-                          <span className="text-xs text-muted-foreground">{row.completion}%</span>
+                          <Progress value={row.completion} className="h-1.5 w-16" />
+                          <span className="text-[10px] text-muted-foreground">{row.completion}%</span>
                         </div>
                       </TableCell>
                     </TableRow>
@@ -62,8 +62,8 @@ export const EngineeringSection = () => {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold mb-3 text-foreground">Mandate Completion Status</h3>
-            <ResponsiveContainer width="100%" height={250}>
+            <h3 className="text-xs font-semibold mb-2 text-foreground">Mandate Completion Status</h3>
+            <ResponsiveContainer width="100%" height={180}>
               <PieChart>
                 <Pie
                   data={pieData}

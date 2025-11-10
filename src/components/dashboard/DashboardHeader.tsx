@@ -13,16 +13,16 @@ export const DashboardHeader = () => {
   });
 
   return (
-    <div className="bg-primary text-primary-foreground p-6 rounded-lg shadow-lg mb-6">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <div className="bg-primary text-primary-foreground p-3 rounded-lg shadow-md mb-3">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
         <div>
-          <h1 className="text-3xl font-bold mb-1">TCPL Executive Summary FY26</h1>
-          <p className="text-sm opacity-90">Last Updated On: {currentDate}</p>
+          <h1 className="text-xl font-bold mb-0.5">TCPL Executive Summary FY26</h1>
+          <p className="text-xs opacity-90">Last Updated: {currentDate}</p>
         </div>
         
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2">
           <Select defaultValue="fy26">
-            <SelectTrigger className="w-[140px] bg-card text-card-foreground">
+            <SelectTrigger className="w-[120px] h-8 text-xs bg-card text-card-foreground">
               <SelectValue placeholder="Financial Year" />
             </SelectTrigger>
             <SelectContent>
@@ -33,7 +33,7 @@ export const DashboardHeader = () => {
           </Select>
 
           <Select defaultValue="all">
-            <SelectTrigger className="w-[160px] bg-card text-card-foreground">
+            <SelectTrigger className="w-[140px] h-8 text-xs bg-card text-card-foreground">
               <SelectValue placeholder="Business Unit" />
             </SelectTrigger>
             <SelectContent>
@@ -45,17 +45,17 @@ export const DashboardHeader = () => {
             </SelectContent>
           </Select>
 
-          <div className="flex gap-2">
-            <Button variant="secondary" size="sm" className="gap-2">
-              <FileDown className="h-4 w-4" />
+          <div className="flex gap-1.5">
+            <Button variant="secondary" size="sm" className="gap-1.5 h-8 px-2.5 text-xs">
+              <FileDown className="h-3.5 w-3.5" />
               PDF
             </Button>
-            <Button variant="secondary" size="sm" className="gap-2">
-              <FileSpreadsheet className="h-4 w-4" />
+            <Button variant="secondary" size="sm" className="gap-1.5 h-8 px-2.5 text-xs">
+              <FileSpreadsheet className="h-3.5 w-3.5" />
               Excel
             </Button>
-            <Button variant="secondary" size="sm" className="gap-2">
-              <Image className="h-4 w-4" />
+            <Button variant="secondary" size="sm" className="gap-1.5 h-8 px-2.5 text-xs">
+              <Image className="h-3.5 w-3.5" />
               Image
             </Button>
           </div>

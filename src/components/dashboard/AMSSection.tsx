@@ -30,13 +30,13 @@ export const AMSSection = () => {
         { label: "Billing Variance", value: "+8.2%", highlight: true },
       ]}
     >
-      <div className="space-y-6">
+      <div className="space-y-4">
         <div>
-          <h3 className="text-sm font-semibold mb-3 text-foreground">Contract Performance</h3>
+          <h3 className="text-xs font-semibold mb-2 text-foreground">Contract Performance</h3>
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
-                <TableRow>
+                <TableRow className="text-xs">
                   <TableHead>Client</TableHead>
                   <TableHead>Plant</TableHead>
                   <TableHead>Location</TableHead>
@@ -49,17 +49,17 @@ export const AMSSection = () => {
               </TableHeader>
               <TableBody>
                 {amsData.map((row, idx) => (
-                  <TableRow key={idx}>
-                    <TableCell className="font-medium">{row.client}</TableCell>
-                    <TableCell>{row.plant}</TableCell>
-                    <TableCell>{row.location}</TableCell>
-                    <TableCell className="text-right">₹{row.expected}L</TableCell>
-                    <TableCell className="text-right">₹{row.actual}L</TableCell>
-                    <TableCell className={`text-right font-medium ${row.variance > 0 ? 'text-success' : 'text-destructive'}`}>
+                  <TableRow key={idx} className="text-xs">
+                    <TableCell className="font-medium py-2">{row.client}</TableCell>
+                    <TableCell className="py-2">{row.plant}</TableCell>
+                    <TableCell className="py-2">{row.location}</TableCell>
+                    <TableCell className="text-right py-2">₹{row.expected}L</TableCell>
+                    <TableCell className="text-right py-2">₹{row.actual}L</TableCell>
+                    <TableCell className={`text-right font-medium py-2 ${row.variance > 0 ? 'text-success' : 'text-destructive'}`}>
                       {row.variance > 0 ? '+' : ''}{row.variance}%
                     </TableCell>
-                    <TableCell className="text-center">{row.manpower}</TableCell>
-                    <TableCell className="text-center">
+                    <TableCell className="text-center py-2">{row.manpower}</TableCell>
+                    <TableCell className="text-center py-2">
                       <Badge variant={row.status === 'on-track' ? 'default' : 'destructive'}>
                         {row.status === 'on-track' ? 'On Track' : 'Behind'}
                       </Badge>
@@ -72,8 +72,8 @@ export const AMSSection = () => {
         </div>
 
         <div>
-          <h3 className="text-sm font-semibold mb-3 text-foreground">Expected vs Actual Billing</h3>
-          <ResponsiveContainer width="100%" height={300}>
+          <h3 className="text-xs font-semibold mb-2 text-foreground">Expected vs Actual Billing</h3>
+          <ResponsiveContainer width="100%" height={200}>
             <BarChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />

@@ -23,11 +23,11 @@ export const ExpandableSection = ({
 
   return (
     <Card className="overflow-hidden">
-      <div className="bg-primary text-primary-foreground p-4">
+      <div className="bg-primary text-primary-foreground p-2.5">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             {icon && <div className="text-accent">{icon}</div>}
-            <h2 className="text-xl font-bold">{title}</h2>
+            <h2 className="text-base font-bold">{title}</h2>
           </div>
           <Button
             variant="ghost"
@@ -44,13 +44,13 @@ export const ExpandableSection = ({
         </div>
       </div>
 
-      <div className="p-4 bg-card">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+      <div className="p-3 bg-card">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-2">
           {metrics.map((metric, index) => (
-            <div key={index} className="space-y-1">
-              <p className="text-xs text-muted-foreground">{metric.label}</p>
+            <div key={index} className="space-y-0.5">
+              <p className="text-[10px] text-muted-foreground">{metric.label}</p>
               <p className={cn(
-                "text-lg font-semibold",
+                "text-base font-semibold",
                 metric.highlight ? "text-accent" : "text-foreground"
               )}>
                 {metric.value}
@@ -60,7 +60,7 @@ export const ExpandableSection = ({
         </div>
 
         {isExpanded && children && (
-          <div className="mt-4 pt-4 border-t border-border">
+          <div className="mt-3 pt-3 border-t border-border">
             {children}
           </div>
         )}
