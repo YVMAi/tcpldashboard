@@ -1,0 +1,40 @@
+import { MetricCard } from "./MetricCard";
+import { Building2, Zap, Briefcase, Cloud } from "lucide-react";
+
+export const SummaryCards = () => {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <MetricCard
+        title="Portfolio MW"
+        value="1,250 MW"
+        subtitle="45 Plants"
+        variance={12.5}
+        icon={<Zap className="h-5 w-5" />}
+      />
+      
+      <MetricCard
+        title="Annual Billing (YTD)"
+        value="₹245 Cr"
+        subtitle="Expected: ₹220 Cr"
+        variance={11.4}
+        icon={<Building2 className="h-5 w-5" />}
+      />
+      
+      <MetricCard
+        title="Engineering Mandates"
+        value="28"
+        subtitle="18 Completed"
+        variance={-5.2}
+        icon={<Briefcase className="h-5 w-5" />}
+      />
+      
+      <MetricCard
+        title="SaaS GWP"
+        value="3.2 GW"
+        subtitle="142 Clients"
+        variance={18.7}
+        icon={<Cloud className="h-5 w-5" />}
+      />
+    </div>
+  );
+};
