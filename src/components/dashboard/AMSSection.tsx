@@ -2,20 +2,12 @@ import { ExpandableSection } from "./ExpandableSection";
 import { Zap } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 const amsData = [
-  { client: "Client A", type: "AMS", plants: 8, expected: 245, actual: 268, variance: 9.4, manpower: 12, status: "on-track" },
-  { client: "Client C", type: "AMS", plants: 12, expected: 320, actual: 335, variance: 4.7, manpower: 15, status: "on-track" },
-  { client: "Client B", type: "O&M", plants: 5, expected: 180, actual: 165, variance: -8.3, manpower: 8, status: "behind" },
-  { client: "Client D", type: "O&M", plants: 6, expected: 195, actual: 182, variance: -6.7, manpower: 10, status: "behind" },
-];
-
-const chartData = [
-  { name: "Client A", Expected: 245, Actual: 268 },
-  { name: "Client B", Expected: 180, Actual: 165 },
-  { name: "Client C", Expected: 320, Actual: 335 },
-  { name: "Client D", Expected: 195, Actual: 182 },
+  { client: "Client A", type: "AMS", plants: 8, capacity: 250, expected: 245, actual: 268, variance: 9.4, manpower: 12, status: "on-track" },
+  { client: "Client C", type: "AMS", plants: 12, capacity: 380, expected: 320, actual: 335, variance: 4.7, manpower: 15, status: "on-track" },
+  { client: "Client B", type: "O&M", plants: 5, capacity: 180, expected: 180, actual: 165, variance: -8.3, manpower: 8, status: "behind" },
+  { client: "Client D", type: "O&M", plants: 6, capacity: 220, expected: 195, actual: 182, variance: -6.7, manpower: 10, status: "behind" },
 ];
 
 export const AMSSection = () => {
@@ -24,10 +16,10 @@ export const AMSSection = () => {
       title="AMS & O&M"
       icon={<Zap className="h-5 w-5" />}
       metrics={[
-        { label: "Capacity", value: "1,250 MWp", highlight: true },
-        { label: "No. of Plants", value: "45" },
-        { label: "Manpower", value: "285" },
-        { label: "Billing Variance", value: "+8.2%", highlight: true },
+        { label: "Capacity", value: "1,250 MWp" },
+        { label: "Expected Revenue", value: "₹940Cr" },
+        { label: "Actual Revenue", value: "₹950Cr", highlight: true },
+        { label: "Variance", value: "+1.1%" },
       ]}
     >
       <div className="space-y-4">
@@ -39,7 +31,8 @@ export const AMSSection = () => {
                 <TableRow className="text-xs">
                   <TableHead>Client</TableHead>
                   <TableHead>Type</TableHead>
-                  <TableHead className="text-center">No. of Plants</TableHead>
+                  <TableHead className="text-center">Plants</TableHead>
+                  <TableHead className="text-right">Capacity (MW)</TableHead>
                   <TableHead className="text-right">Expected (₹L)</TableHead>
                   <TableHead className="text-right">Actual (₹L)</TableHead>
                   <TableHead className="text-right">Variance %</TableHead>
@@ -57,6 +50,7 @@ export const AMSSection = () => {
                       </Badge>
                     </TableCell>
                     <TableCell className="text-center py-2">{row.plants}</TableCell>
+                    <TableCell className="text-right py-2">{row.capacity}</TableCell>
                     <TableCell className="text-right py-2">₹{row.expected}L</TableCell>
                     <TableCell className="text-right py-2">₹{row.actual}L</TableCell>
                     <TableCell className={`text-right font-medium py-2 ${row.variance > 0 ? 'text-success' : 'text-destructive'}`}>
@@ -73,21 +67,6 @@ export const AMSSection = () => {
               </TableBody>
             </Table>
           </div>
-        </div>
-
-        <div>
-          <h3 className="text-xs font-semibold mb-2 text-foreground">Expected vs Actual Billing</h3>
-          <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="Expected" fill="hsl(var(--primary))" />
-              <Bar dataKey="Actual" fill="hsl(var(--accent))" />
-            </BarChart>
-          </ResponsiveContainer>
         </div>
       </div>
     </ExpandableSection>
