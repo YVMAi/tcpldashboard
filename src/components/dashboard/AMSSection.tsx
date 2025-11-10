@@ -5,10 +5,10 @@ import { Badge } from "@/components/ui/badge";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 const amsData = [
-  { client: "Client A", type: "AMS", expected: 245, actual: 268, variance: 9.4, manpower: 12, status: "on-track" },
-  { client: "Client B", type: "O&M", expected: 180, actual: 165, variance: -8.3, manpower: 8, status: "behind" },
-  { client: "Client C", type: "AMS", expected: 320, actual: 335, variance: 4.7, manpower: 15, status: "on-track" },
-  { client: "Client D", type: "O&M", expected: 195, actual: 182, variance: -6.7, manpower: 10, status: "behind" },
+  { client: "Client A", type: "AMS", plants: 8, expected: 245, actual: 268, variance: 9.4, manpower: 12, status: "on-track" },
+  { client: "Client C", type: "AMS", plants: 12, expected: 320, actual: 335, variance: 4.7, manpower: 15, status: "on-track" },
+  { client: "Client B", type: "O&M", plants: 5, expected: 180, actual: 165, variance: -8.3, manpower: 8, status: "behind" },
+  { client: "Client D", type: "O&M", plants: 6, expected: 195, actual: 182, variance: -6.7, manpower: 10, status: "behind" },
 ];
 
 const chartData = [
@@ -39,6 +39,7 @@ export const AMSSection = () => {
                 <TableRow className="text-xs">
                   <TableHead>Client</TableHead>
                   <TableHead>Type</TableHead>
+                  <TableHead className="text-center">No. of Plants</TableHead>
                   <TableHead className="text-right">Expected (₹L)</TableHead>
                   <TableHead className="text-right">Actual (₹L)</TableHead>
                   <TableHead className="text-right">Variance %</TableHead>
@@ -55,6 +56,7 @@ export const AMSSection = () => {
                         {row.type}
                       </Badge>
                     </TableCell>
+                    <TableCell className="text-center py-2">{row.plants}</TableCell>
                     <TableCell className="text-right py-2">₹{row.expected}L</TableCell>
                     <TableCell className="text-right py-2">₹{row.actual}L</TableCell>
                     <TableCell className={`text-right font-medium py-2 ${row.variance > 0 ? 'text-success' : 'text-destructive'}`}>
