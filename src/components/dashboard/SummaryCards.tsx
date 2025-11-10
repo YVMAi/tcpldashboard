@@ -21,9 +21,9 @@ export const SummaryCards = () => {
       />
       
       <MetricCard
-        title="Engineering Mandates"
+        title="Engineering & Advisory"
         value="28"
-        subtitle="18 Completed"
+        subtitle="Eng: 22 | Adv: 6"
         variance={-5.2}
         icon={<Briefcase className="h-5 w-5" />}
       />

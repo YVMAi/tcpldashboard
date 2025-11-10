@@ -21,12 +21,12 @@ const COLORS = ['hsl(var(--accent))', 'hsl(var(--chart-3))'];
 export const EngineeringSection = () => {
   return (
     <ExpandableSection
-      title="Engineering Services"
+      title="Engineering & Advisory Services"
       icon={<Briefcase className="h-5 w-5" />}
       metrics={[
         { label: "Total Mandates", value: "28" },
-        { label: "Completed", value: "18", highlight: true },
-        { label: "Manpower", value: "42" },
+        { label: "Engineering", value: "22" },
+        { label: "Advisory", value: "6", highlight: true },
         { label: "Revenue (YTD)", value: "₹82 Cr" },
       ]}
     >
