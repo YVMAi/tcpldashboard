@@ -16,10 +16,11 @@ const generationData = [
   { client: "Client D", mtdGeneration: 92, remarks: "Above target" },
 ];
 
-const complianceMetrics = [
-  { metric: "Reports Submitted", value: 94 },
-  { metric: "Meetings Attended", value: 88 },
-  { metric: "Site Visits", value: 96 },
+const complianceData = [
+  { client: "Client A", reports: 96, meetings: 92, siteVisits: 100, remarks: "Full compliance" },
+  { client: "Client B", reports: 88, meetings: 80, siteVisits: 92, remarks: "Missed 2 meetings" },
+  { client: "Client C", reports: 100, meetings: 95, siteVisits: 95, remarks: "Excellent compliance" },
+  { client: "Client D", reports: 92, meetings: 85, siteVisits: 98, remarks: "1 late report" },
 ];
 
 export const PerformanceSection = () => {
@@ -94,16 +95,59 @@ export const PerformanceSection = () => {
 
       <Card className="p-3">
         <h2 className="text-base font-bold mb-2 text-foreground">Compliance Metrics</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {complianceMetrics.map((metric, idx) => (
-            <div key={idx} className="space-y-2">
-              <div className="flex justify-between items-center">
-                <span className="text-xs font-medium text-foreground">{metric.metric}</span>
-                <span className="text-xs font-bold text-accent">{metric.value}%</span>
-              </div>
-              <Progress value={metric.value} className="h-2" />
-            </div>
-          ))}
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow className="text-xs">
+                <TableHead>Client</TableHead>
+                <TableHead>Reports Submitted (%)</TableHead>
+                <TableHead>Meetings Attended (%)</TableHead>
+                <TableHead>Site Visits (%)</TableHead>
+                <TableHead>Remarks</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {complianceData.map((row, idx) => (
+                <TableRow key={idx} className="text-xs">
+                  <TableCell className="font-medium py-2">{row.client}</TableCell>
+                  <TableCell className="py-2">
+                    <div className="flex items-center gap-2">
+                      <Progress 
+                        value={row.reports} 
+                        className={`h-1.5 w-16 ${row.reports < 80 ? '[&>div]:bg-destructive' : row.reports < 90 ? '[&>div]:bg-warning' : '[&>div]:bg-success'}`}
+                      />
+                      <span className={`font-medium text-[10px] ${row.reports < 80 ? 'text-destructive' : row.reports < 90 ? 'text-warning' : 'text-success'}`}>
+                        {row.reports}%
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="py-2">
+                    <div className="flex items-center gap-2">
+                      <Progress 
+                        value={row.meetings} 
+                        className={`h-1.5 w-16 ${row.meetings < 80 ? '[&>div]:bg-destructive' : row.meetings < 90 ? '[&>div]:bg-warning' : '[&>div]:bg-success'}`}
+                      />
+                      <span className={`font-medium text-[10px] ${row.meetings < 80 ? 'text-destructive' : row.meetings < 90 ? 'text-warning' : 'text-success'}`}>
+                        {row.meetings}%
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="py-2">
+                    <div className="flex items-center gap-2">
+                      <Progress 
+                        value={row.siteVisits} 
+                        className={`h-1.5 w-16 ${row.siteVisits < 80 ? '[&>div]:bg-destructive' : row.siteVisits < 90 ? '[&>div]:bg-warning' : '[&>div]:bg-success'}`}
+                      />
+                      <span className={`font-medium text-[10px] ${row.siteVisits < 80 ? 'text-destructive' : row.siteVisits < 90 ? 'text-warning' : 'text-success'}`}>
+                        {row.siteVisits}%
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-muted-foreground py-2">{row.remarks}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </div>
       </Card>
     </div>
