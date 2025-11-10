@@ -1,7 +1,11 @@
 import { MetricCard } from "./MetricCard";
 import { Building2, Zap, Briefcase, Cloud } from "lucide-react";
+import { useCurrency } from "@/contexts/CurrencyContext";
+import { formatCurrency } from "@/lib/currency";
 
 export const SummaryCards = () => {
+  const { currencyUnit } = useCurrency();
+  
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
       <MetricCard
@@ -14,8 +18,8 @@ export const SummaryCards = () => {
       
       <MetricCard
         title="Annual Billing (YTD)"
-        value="₹245 Cr"
-        subtitle="Expected: ₹220 Cr"
+        value={formatCurrency(245, currencyUnit)}
+        subtitle={`Expected: ${formatCurrency(220, currencyUnit)}`}
         variance={11.4}
         icon={<Building2 className="h-5 w-5" />}
       />

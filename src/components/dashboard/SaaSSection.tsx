@@ -2,13 +2,15 @@ import { ExpandableSection } from "./ExpandableSection";
 import { Cloud } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { useCurrency } from "@/contexts/CurrencyContext";
+import { formatCurrency, formatCurrencyLabel } from "@/lib/currency";
 
 const saasProducts = [
-  { product: "TruGenie", expected: 45, actual: 52, clients: 38 },
-  { product: "TruGreen", expected: 38, actual: 35, clients: 28 },
-  { product: "TruOps", expected: 52, actual: 58, clients: 45 },
-  { product: "TruCovenant", expected: 28, actual: 31, clients: 22 },
-  { product: "TruFlow", expected: 35, actual: 38, clients: 24 },
+  { product: "TruGenie", expected: 0.45, actual: 0.52, clients: 38 },
+  { product: "TruGreen", expected: 0.38, actual: 0.35, clients: 28 },
+  { product: "TruOps", expected: 0.52, actual: 0.58, clients: 45 },
+  { product: "TruCovenant", expected: 0.28, actual: 0.31, clients: 22 },
+  { product: "TruFlow", expected: 0.35, actual: 0.38, clients: 24 },
 ];
 
 const monthlyData = [
@@ -20,6 +22,8 @@ const monthlyData = [
 ];
 
 export const SaaSSection = () => {
+  const { currencyUnit } = useCurrency();
+  
   return (
     <ExpandableSection
       title="SaaS Products"
@@ -27,8 +31,8 @@ export const SaaSSection = () => {
       metrics={[
         { label: "SaaS GWP", value: "3.2 GW", highlight: true },
         { label: "AMS Clients Using SaaS", value: "142" },
-        { label: "Expected Revenue", value: "₹198L" },
-        { label: "Actual Revenue", value: "₹214L", highlight: true },
+        { label: "Expected Revenue", value: formatCurrency(1.98, currencyUnit) },
+        { label: "Actual Revenue", value: formatCurrency(2.14, currencyUnit), highlight: true },
       ]}
     >
       <div className="space-y-4">
@@ -39,8 +43,8 @@ export const SaaSSection = () => {
               <TableHeader>
                 <TableRow className="text-xs">
                   <TableHead>Product</TableHead>
-                  <TableHead className="text-right">Expected (₹L)</TableHead>
-                  <TableHead className="text-right">Actual (₹L)</TableHead>
+                  <TableHead className="text-right">Expected {formatCurrencyLabel(currencyUnit)}</TableHead>
+                  <TableHead className="text-right">Actual {formatCurrencyLabel(currencyUnit)}</TableHead>
                   <TableHead className="text-right">Variance %</TableHead>
                   <TableHead className="text-center">Clients</TableHead>
                 </TableRow>
@@ -51,8 +55,8 @@ export const SaaSSection = () => {
                   return (
                     <TableRow key={idx} className="text-xs">
                       <TableCell className="font-medium py-2">{row.product}</TableCell>
-                      <TableCell className="text-right py-2">₹{row.expected}L</TableCell>
-                      <TableCell className="text-right py-2">₹{row.actual}L</TableCell>
+                      <TableCell className="text-right py-2">{formatCurrency(row.expected, currencyUnit)}</TableCell>
+                      <TableCell className="text-right py-2">{formatCurrency(row.actual, currencyUnit)}</TableCell>
                       <TableCell className={`text-right font-medium py-2 ${parseFloat(variance) > 0 ? 'text-success' : 'text-destructive'}`}>
                         {parseFloat(variance) > 0 ? '+' : ''}{variance}%
                       </TableCell>

@@ -3,6 +3,8 @@ import { Briefcase } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Progress } from "@/components/ui/progress";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
+import { useCurrency } from "@/contexts/CurrencyContext";
+import { formatCurrency } from "@/lib/currency";
 
 const engineeringData = [
   { mandate: "Solar EPC - 50MW", client: "Client X", completion: 85, revenue: 125, status: "In Progress" },
@@ -19,6 +21,8 @@ const pieData = [
 const COLORS = ['hsl(var(--accent))', 'hsl(var(--chart-3))'];
 
 export const EngineeringSection = () => {
+  const { currencyUnit } = useCurrency();
+  
   return (
     <ExpandableSection
       title="Engineering & Advisory Services"
@@ -27,7 +31,7 @@ export const EngineeringSection = () => {
         { label: "Total Mandates", value: "28" },
         { label: "Engineering", value: "22" },
         { label: "Advisory", value: "6", highlight: true },
-        { label: "Revenue (YTD)", value: "₹82 Cr" },
+        { label: "Revenue (YTD)", value: formatCurrency(82, currencyUnit) },
       ]}
     >
       <div className="space-y-4">
