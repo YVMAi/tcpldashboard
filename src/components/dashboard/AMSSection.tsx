@@ -16,12 +16,10 @@ export const AMSSection = () => {
       title="AMS & O&M"
       icon={<Zap className="h-5 w-5" />}
       metrics={[
-        { label: "Capacity", value: "1,250 MWp" },
         { label: "No. of Plants", value: "31" },
         { label: "Expected Revenue", value: "₹940Cr" },
         { label: "Actual Revenue", value: "₹950Cr", highlight: true },
         { label: "Manpower", value: "45" },
-        { label: "Variance", value: "+1.1%" },
       ]}
     >
       <div className="space-y-4">
