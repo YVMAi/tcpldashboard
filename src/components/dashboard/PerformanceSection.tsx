@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, Zap, ClipboardCheck } from "lucide-react";
 
 const hseIncidents = [
   { client: "Client A", plant: "Solar Park MP", details: "Minor equipment damage", severity: "low" },
@@ -60,7 +60,10 @@ export const PerformanceSection = () => {
       </Card>
 
       <Card className="p-3">
-        <h2 className="text-base font-bold mb-2 text-foreground">Generation Performance (MTD)</h2>
+        <div className="flex items-center gap-2 mb-2">
+          <Zap className="h-4 w-4 text-accent" />
+          <h2 className="text-base font-bold text-foreground">Generation Performance (MTD)</h2>
+        </div>
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
@@ -94,7 +97,10 @@ export const PerformanceSection = () => {
       </Card>
 
       <Card className="p-3">
-        <h2 className="text-base font-bold mb-2 text-foreground">Compliance Metrics</h2>
+        <div className="flex items-center gap-2 mb-2">
+          <ClipboardCheck className="h-4 w-4 text-success" />
+          <h2 className="text-base font-bold text-foreground">Compliance Metrics</h2>
+        </div>
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
