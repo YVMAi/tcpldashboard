@@ -1,16 +1,17 @@
 import { ExpandableSection } from "./ExpandableSection";
 import { Briefcase } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Progress } from "@/components/ui/progress";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { formatCurrency } from "@/lib/currency";
 
 const engineeringData = [
-  { mandate: "Solar EPC - 50MW", client: "Client X", completion: 85, revenue: 125, status: "In Progress" },
-  { mandate: "Grid Connection Study", client: "Client Y", completion: 100, revenue: 45, status: "Completed" },
-  { mandate: "Feasibility Analysis", client: "Client Z", completion: 60, revenue: 32, status: "In Progress" },
-  { mandate: "Design & Engineering", client: "Client W", completion: 40, revenue: 78, status: "In Progress" },
+  { client: "Client X", mandateType: "Engineering", status: "Active", manpower: 12, expectedRevenue: 125, actualRevenue: 106 },
+  { client: "Client Y", mandateType: "Advisory", status: "Completed", manpower: 5, expectedRevenue: 45, actualRevenue: 45 },
+  { client: "Client Z", mandateType: "Engineering", status: "Active", manpower: 8, expectedRevenue: 32, actualRevenue: 19 },
+  { client: "Client W", mandateType: "Engineering", status: "Active", manpower: 15, expectedRevenue: 78, actualRevenue: 31 },
+  { client: "Client A", mandateType: "Advisory", status: "Active", manpower: 3, expectedRevenue: 28, actualRevenue: 22 },
+  { client: "Client B", mandateType: "Engineering", status: "Completed", manpower: 10, expectedRevenue: 65, actualRevenue: 68 },
 ];
 
 const pieData = [
@@ -37,27 +38,32 @@ export const EngineeringSection = () => {
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <h3 className="text-xs font-semibold mb-2 text-foreground">Active Mandates</h3>
+            <h3 className="text-xs font-semibold mb-2 text-foreground">Client Mandates Overview</h3>
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow className="text-xs">
-                    <TableHead>Mandate</TableHead>
-                    <TableHead>Client</TableHead>
-                    <TableHead>Completion</TableHead>
+                    <TableHead>Client Name</TableHead>
+                    <TableHead>Type</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Manpower</TableHead>
+                    <TableHead>Expected Rev</TableHead>
+                    <TableHead>Actual Rev</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {engineeringData.map((row, idx) => (
                     <TableRow key={idx} className="text-xs">
-                      <TableCell className="font-medium py-2">{row.mandate}</TableCell>
-                      <TableCell className="py-2">{row.client}</TableCell>
+                      <TableCell className="font-medium py-2">{row.client}</TableCell>
+                      <TableCell className="py-2">{row.mandateType}</TableCell>
                       <TableCell className="py-2">
-                        <div className="flex items-center gap-2">
-                          <Progress value={row.completion} className="h-1.5 w-16" />
-                          <span className="text-[10px] text-muted-foreground">{row.completion}%</span>
-                        </div>
+                        <span className={row.status === "Active" ? "text-accent" : "text-muted-foreground"}>
+                          {row.status}
+                        </span>
                       </TableCell>
+                      <TableCell className="py-2">{row.manpower}</TableCell>
+                      <TableCell className="py-2">{formatCurrency(row.expectedRevenue, currencyUnit)}</TableCell>
+                      <TableCell className="py-2">{formatCurrency(row.actualRevenue, currencyUnit)}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
