@@ -2,6 +2,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button";
 import { FileDown, FileSpreadsheet } from "lucide-react";
 import { useCurrency } from "@/contexts/CurrencyContext";
+import { exportToPDF, exportToExcel } from "@/lib/export";
+import { toast } from "sonner";
 
 export const DashboardHeader = () => {
   const { currencyUnit, setCurrencyUnit } = useCurrency();
@@ -45,11 +47,27 @@ export const DashboardHeader = () => {
           </Select>
 
           <div className="flex gap-1.5">
-            <Button variant="secondary" size="sm" className="gap-1.5 h-8 px-2.5 text-xs">
+            <Button 
+              variant="secondary" 
+              size="sm" 
+              className="gap-1.5 h-8 px-2.5 text-xs"
+              onClick={() => {
+                exportToPDF();
+                toast.success("PDF exported successfully!");
+              }}
+            >
               <FileDown className="h-3.5 w-3.5" />
               PDF
             </Button>
-            <Button variant="secondary" size="sm" className="gap-1.5 h-8 px-2.5 text-xs">
+            <Button 
+              variant="secondary" 
+              size="sm" 
+              className="gap-1.5 h-8 px-2.5 text-xs"
+              onClick={() => {
+                exportToExcel();
+                toast.success("Excel exported successfully!");
+              }}
+            >
               <FileSpreadsheet className="h-3.5 w-3.5" />
               Excel
             </Button>

@@ -58,7 +58,7 @@ export const SaaSSection = () => {
       icon={<Cloud className="h-5 w-5" />}
       metrics={[
         { label: "SaaS GWP", value: "3.2 GW", highlight: true },
-        { label: "AMS Clients Using SaaS", value: "142" },
+        { label: "AMS GWP", value: "2.35 GW" },
         { label: "Expected Revenue", value: formatCurrency(1.98, currencyUnit) },
         { label: "Actual Revenue", value: formatCurrency(2.14, currencyUnit), highlight: true },
       ]}
