@@ -50,6 +50,7 @@ export const EngineeringSection = () => {
     <ExpandableSection
       title="Engineering & Advisory Services"
       icon={<Briefcase className="h-5 w-5" />}
+      defaultExpanded={true}
       metrics={[
         { label: "Total Mandates", value: "28" },
         { label: "Engineering", value: "22" },

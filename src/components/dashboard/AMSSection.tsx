@@ -83,6 +83,7 @@ export const AMSSection = () => {
     <ExpandableSection
       title="AMS & O&M"
       icon={<Zap className="h-5 w-5" />}
+      defaultExpanded={true}
       metrics={[
         { label: "No. of Plants", value: "31" },
         { label: "Expected Revenue", value: formatCurrency(940, currencyUnit) },

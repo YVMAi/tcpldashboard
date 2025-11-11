@@ -56,6 +56,7 @@ export const SaaSSection = () => {
     <ExpandableSection
       title="SaaS Products"
       icon={<Cloud className="h-5 w-5" />}
+      defaultExpanded={true}
       metrics={[
         { label: "SaaS GWP", value: "3.2 GW", highlight: true },
         { label: "AMS GWP", value: "2.35 GW" },
