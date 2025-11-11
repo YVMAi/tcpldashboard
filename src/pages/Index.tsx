@@ -8,8 +8,8 @@ import { PerformanceSection } from "@/components/dashboard/PerformanceSection";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background p-6 md:p-8">
-      <div className="max-w-[1600px] mx-auto space-y-6">
+    <div className="min-h-screen bg-background p-3 md:p-5 lg:p-6">
+      <div className="max-w-7xl mx-auto space-y-4">
         <DashboardHeader />
         <SummaryCards />
         

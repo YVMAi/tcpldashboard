@@ -14,16 +14,16 @@ interface CategorySectionProps {
 
 export const CategorySection = ({ title, children, defaultOpen = true }: CategorySectionProps) => {
   return (
-    <Collapsible defaultOpen={defaultOpen} className="space-y-4">
+    <Collapsible defaultOpen={defaultOpen} className="space-y-3">
       <CollapsibleTrigger className="w-full group">
-        <div className="flex items-center justify-between bg-muted/50 border-l-4 border-accent px-5 py-4 rounded-lg hover:bg-muted transition-all duration-200 shadow-sm">
-          <h2 className="text-[17px] font-semibold text-primary tracking-tight uppercase">
+        <div className="flex items-center justify-between bg-gradient-to-r from-primary/5 to-transparent border-l-4 border-accent px-4 py-3 rounded-lg hover:from-primary/10 transition-all duration-200">
+          <h2 className="text-base font-semibold text-primary tracking-tight">
             {title}
           </h2>
-          <ChevronDown className="h-5 w-5 text-accent transition-transform duration-200 group-data-[state=open]:rotate-180" />
+          <ChevronDown className="h-4 w-4 text-accent transition-transform duration-200 group-data-[state=open]:rotate-180" />
         </div>
       </CollapsibleTrigger>
-      <CollapsibleContent className="space-y-4 pt-1">
+      <CollapsibleContent className="space-y-3">
         {children}
       </CollapsibleContent>
     </Collapsible>

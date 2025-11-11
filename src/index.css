@@ -9,14 +9,14 @@ All colors MUST be HSL.
 @layer base {
   :root {
     /* Base colors - Executive theme */
-    --background: 210 20% 98%;
-    --foreground: 210 25% 12%;
+    --background: 210 17% 98%;
+    --foreground: 215 25% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 210 25% 12%;
+    --card-foreground: 215 25% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 210 25% 12%;
+    --popover-foreground: 215 25% 12%;
 
     /* Primary Navy Blue #0D1B2A */
     --primary: 210 56% 11%;
@@ -31,13 +31,13 @@ All colors MUST be HSL.
     --accent-foreground: 0 0% 100%;
     --accent-hover: 165 100% 29%;
 
-    /* Light Grey backgrounds #F2F5F7 */
-    --muted: 210 20% 96%;
-    --muted-foreground: 215 16% 45%;
+    /* Muted and subtle colors */
+    --muted: 210 17% 98%;
+    --muted-foreground: 215 16% 47%;
 
     /* Typography colors */
-    --typography-primary: 215 20% 15%;
-    --typography-secondary: 215 13% 45%;
+    --typography-primary: 215 25% 12%;
+    --typography-secondary: 215 16% 47%;
 
     /* Success, Warning, Error */
     --success: 160 100% 40%;
@@ -49,9 +49,9 @@ All colors MUST be HSL.
     --destructive: 4 79% 57%;
     --destructive-foreground: 0 0% 100%;
 
-    /* Border and dividers - Light Grey */
-    --border: 215 15% 91%;
-    --input: 215 15% 91%;
+    /* Border and dividers */
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
     --ring: 165 100% 36%;
 
     --radius: 0.625rem;
