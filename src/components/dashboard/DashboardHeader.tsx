@@ -15,19 +15,19 @@ export const DashboardHeader = () => {
   });
 
   return (
-    <div className="bg-gradient-to-br from-[#F8FAFB] to-white border-b border-border/50 p-5 rounded-t-lg shadow-sm mb-4">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+    <div className="bg-muted border-b border-border p-6 rounded-t-lg shadow-sm mb-6">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 className="text-[20px] font-semibold text-primary mb-1 tracking-tight">TCPL Executive Summary FY26</h1>
-          <p className="text-[13px] text-muted-foreground font-medium">Last Updated: {currentDate}</p>
+          <h1 className="text-[22px] font-semibold text-primary mb-1 tracking-tight">TCPL Executive Summary FY26</h1>
+          <p className="text-[13px] text-typography-secondary font-medium">Last Updated: {currentDate}</p>
         </div>
         
-        <div className="flex flex-wrap items-center gap-2.5">
+        <div className="flex flex-wrap items-center gap-3">
           <Select defaultValue="fy26">
-            <SelectTrigger className="w-[130px] h-9 text-[13px] border-border/50 bg-white hover:border-accent/50 transition-colors">
+            <SelectTrigger className="w-[140px] h-10 text-[13px] border-accent/30 bg-white hover:border-accent transition-colors shadow-sm">
               <SelectValue placeholder="Financial Year" />
             </SelectTrigger>
-            <SelectContent className="bg-white border-border/50">
+            <SelectContent className="bg-white border-border">
               <SelectItem value="fy26" className="text-[13px]">FY 2026</SelectItem>
               <SelectItem value="fy25" className="text-[13px]">FY 2025</SelectItem>
               <SelectItem value="fy24" className="text-[13px]">FY 2024</SelectItem>
@@ -35,10 +35,10 @@ export const DashboardHeader = () => {
           </Select>
 
           <Select value={currencyUnit} onValueChange={(value) => setCurrencyUnit(value as "cr" | "lakhs")}>
-            <SelectTrigger className="w-[130px] h-9 text-[13px] border-border/50 bg-white hover:border-accent/50 transition-colors">
+            <SelectTrigger className="w-[140px] h-10 text-[13px] border-accent/30 bg-white hover:border-accent transition-colors shadow-sm">
               <SelectValue placeholder="Currency" />
             </SelectTrigger>
-            <SelectContent className="bg-white border-border/50">
+            <SelectContent className="bg-white border-border">
               <SelectItem value="cr" className="text-[13px]">INR Cr</SelectItem>
               <SelectItem value="lakhs" className="text-[13px]">INR Lakhs</SelectItem>
             </SelectContent>
@@ -48,7 +48,7 @@ export const DashboardHeader = () => {
             <Button 
               variant="outline" 
               size="sm" 
-              className="gap-2 h-9 px-4 text-[13px] border-border/50 hover:border-accent/50 hover:text-accent hover:bg-accent/5 transition-all"
+              className="gap-2 h-10 px-5 text-[13px] font-medium border-accent/30 hover:border-accent hover:text-accent hover:bg-accent/10 transition-all shadow-sm"
             >
               <FileDown className="h-4 w-4" />
               PDF
@@ -56,7 +56,7 @@ export const DashboardHeader = () => {
             <Button 
               variant="outline" 
               size="sm" 
-              className="gap-2 h-9 px-4 text-[13px] border-border/50 hover:border-accent/50 hover:text-accent hover:bg-accent/5 transition-all"
+              className="gap-2 h-10 px-5 text-[13px] font-medium border-accent/30 hover:border-accent hover:text-accent hover:bg-accent/10 transition-all shadow-sm"
             >
               <FileSpreadsheet className="h-4 w-4" />
               Excel

@@ -28,22 +28,22 @@ export const MetricCard = ({ title, value, subtitle, variance, icon, trend }: Me
   };
 
   return (
-    <Card className="p-5 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 border-border/50 bg-card">
-      <div className="flex items-start justify-between mb-3">
-        <h3 className="text-[13px] font-medium text-muted-foreground tracking-tight">{title}</h3>
+    <Card className="p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-border/40 bg-card shadow-sm">
+      <div className="flex items-start justify-between mb-4">
+        <h3 className="text-[13px] font-medium text-typography-secondary tracking-tight uppercase">{title}</h3>
         {icon && (
-          <div className="text-accent/70 p-1.5 rounded-md bg-accent/5">
+          <div className="text-accent p-2 rounded-lg bg-accent/10">
             {icon}
           </div>
         )}
       </div>
       
-      <div className="space-y-1.5">
-        <p className="text-[20px] font-semibold text-accent leading-none tracking-tight">{value}</p>
-        {subtitle && <p className="text-[12px] text-muted-foreground leading-relaxed">{subtitle}</p>}
+      <div className="space-y-2">
+        <p className="text-[24px] font-semibold text-accent leading-none tracking-tight">{value}</p>
+        {subtitle && <p className="text-[12px] text-typography-secondary leading-relaxed">{subtitle}</p>}
         
         {variance !== undefined && (
-          <div className={cn("flex items-center gap-1 text-[13px] font-medium pt-0.5", getTrendColor())}>
+          <div className={cn("flex items-center gap-1.5 text-[13px] font-semibold pt-1", getTrendColor())}>
             {getTrendIcon()}
             <span>{Math.abs(variance)}%</span>
           </div>
