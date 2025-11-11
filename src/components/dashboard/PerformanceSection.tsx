@@ -25,9 +25,9 @@ const complianceData = [
 ];
 
 export const PerformanceSection = () => {
-  const [isHseGrouped, setIsHseGrouped] = useState(true);
-  const [isGenerationGrouped, setIsGenerationGrouped] = useState(true);
-  const [isComplianceGrouped, setIsComplianceGrouped] = useState(true);
+  const [isHseGrouped, setIsHseGrouped] = useState(false);
+  const [isGenerationGrouped, setIsGenerationGrouped] = useState(false);
+  const [isComplianceGrouped, setIsComplianceGrouped] = useState(false);
 
   const groupedHseIncidents = isHseGrouped ? hseIncidents.reduce((acc, incident) => {
     if (!acc[incident.severity]) acc[incident.severity] = [];
@@ -57,13 +57,13 @@ export const PerformanceSection = () => {
           </div>
           <button
             onClick={() => setIsHseGrouped(!isHseGrouped)}
-            className="text-xs px-3 py-1 rounded-md bg-accent text-accent-foreground hover:bg-accent/90 transition-colors"
+            className="text-xs px-2.5 py-1.5 rounded-md bg-accent text-accent-foreground hover:bg-accent/90 transition-colors shadow-sm touch-manipulation"
           >
             {isHseGrouped ? 'Ungroup' : 'Group by Severity'}
           </button>
         </div>
-          <div className="overflow-x-auto">
-            <Table>
+          <div className="overflow-x-auto -mx-3 px-3 md:mx-0 md:px-0">
+            <Table className="min-w-[600px]">
               <TableHeader>
                 <TableRow className="bg-muted hover:bg-muted">
                   <TableHead className="text-xs font-semibold">Client</TableHead>
@@ -109,13 +109,13 @@ export const PerformanceSection = () => {
           </div>
           <button
             onClick={() => setIsGenerationGrouped(!isGenerationGrouped)}
-            className="text-xs px-3 py-1 rounded-md bg-accent text-accent-foreground hover:bg-accent/90 transition-colors"
+            className="text-xs px-2.5 py-1.5 rounded-md bg-accent text-accent-foreground hover:bg-accent/90 transition-colors shadow-sm touch-manipulation"
           >
             {isGenerationGrouped ? 'Ungroup' : 'Group by Performance'}
           </button>
         </div>
-          <div className="overflow-x-auto">
-            <Table>
+          <div className="overflow-x-auto -mx-3 px-3 md:mx-0 md:px-0">
+            <Table className="min-w-[500px]">
               <TableHeader>
                 <TableRow className="bg-muted hover:bg-muted">
                   <TableHead className="text-xs font-semibold">Client</TableHead>
@@ -167,13 +167,13 @@ export const PerformanceSection = () => {
           </div>
           <button
             onClick={() => setIsComplianceGrouped(!isComplianceGrouped)}
-            className="text-xs px-3 py-1 rounded-md bg-accent text-accent-foreground hover:bg-accent/90 transition-colors"
+            className="text-xs px-2.5 py-1.5 rounded-md bg-accent text-accent-foreground hover:bg-accent/90 transition-colors shadow-sm touch-manipulation"
           >
             {isComplianceGrouped ? 'Ungroup' : 'Group by Compliance'}
           </button>
         </div>
-          <div className="overflow-x-auto">
-            <Table>
+          <div className="overflow-x-auto -mx-3 px-3 md:mx-0 md:px-0">
+            <Table className="min-w-[700px]">
               <TableHeader>
                 <TableRow className="bg-muted hover:bg-muted">
                   <TableHead className="text-xs font-semibold">Client</TableHead>

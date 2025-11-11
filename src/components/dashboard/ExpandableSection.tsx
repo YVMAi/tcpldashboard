@@ -23,17 +23,17 @@ export const ExpandableSection = ({
 
   return (
     <Card className="overflow-hidden">
-      <div className="bg-primary text-primary-foreground p-2.5">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            {icon && <div className="text-accent">{icon}</div>}
-            <h2 className="text-base font-bold">{title}</h2>
+      <div className="bg-primary text-primary-foreground p-2.5 md:p-3">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 min-w-0 flex-1">
+            {icon && <div className="text-accent flex-shrink-0">{icon}</div>}
+            <h2 className="text-sm md:text-base font-bold truncate">{title}</h2>
           </div>
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setIsExpanded(!isExpanded)}
-            className="text-primary-foreground hover:bg-primary-foreground/10"
+            className="text-primary-foreground hover:bg-primary-foreground/10 flex-shrink-0 touch-manipulation"
           >
             {isExpanded ? (
               <ChevronUp className="h-5 w-5" />
@@ -44,8 +44,8 @@ export const ExpandableSection = ({
         </div>
       </div>
 
-      <div className="p-3 bg-card">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-2">
+      <div className="p-2.5 md:p-3 bg-card">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-3 mb-2">
           {metrics.map((metric, index) => (
             <div key={index} className="space-y-0.5">
               <p className="text-[10px] text-muted-foreground">{metric.label}</p>

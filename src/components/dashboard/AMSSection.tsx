@@ -16,7 +16,7 @@ const amsData = [
 export const AMSSection = () => {
   const { currencyUnit } = useCurrency();
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
-  const [isGrouped, setIsGrouped] = useState(true);
+  const [isGrouped, setIsGrouped] = useState(false);
 
   const sortedData = [...amsData].sort((a, b) => {
     if (!sortConfig) return 0;
@@ -60,13 +60,13 @@ export const AMSSection = () => {
             <h3 className="text-xs font-semibold text-foreground">Contract Performance</h3>
             <button
               onClick={() => setIsGrouped(!isGrouped)}
-              className="text-xs px-3 py-1 rounded-md bg-accent text-accent-foreground hover:bg-accent/90 transition-colors"
+              className="text-xs px-2.5 py-1.5 rounded-md bg-accent text-accent-foreground hover:bg-accent/90 transition-colors shadow-sm touch-manipulation"
             >
               {isGrouped ? 'Ungroup' : 'Group by Type'}
             </button>
           </div>
-          <div className="overflow-x-auto">
-            <Table>
+          <div className="overflow-x-auto -mx-3 px-3 md:mx-0 md:px-0">
+            <Table className="min-w-[800px]">
               <TableHeader>
                 <TableRow className="bg-muted hover:bg-muted">
                   <TableHead className="cursor-pointer" onClick={() => handleSort('client')}>

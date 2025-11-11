@@ -27,7 +27,7 @@ export const DashboardHeader = () => {
             <SelectTrigger className="w-[120px] h-8 text-xs bg-card text-card-foreground">
               <SelectValue placeholder="Financial Year" />
             </SelectTrigger>
-            <SelectContent className="bg-card">
+            <SelectContent className="bg-card border-border z-50">
               <SelectItem value="fy26">FY 2026</SelectItem>
               <SelectItem value="fy25">FY 2025</SelectItem>
               <SelectItem value="fy24">FY 2024</SelectItem>
@@ -38,7 +38,7 @@ export const DashboardHeader = () => {
             <SelectTrigger className="w-[120px] h-8 text-xs bg-card text-card-foreground">
               <SelectValue placeholder="Currency" />
             </SelectTrigger>
-            <SelectContent className="bg-card">
+            <SelectContent className="bg-card border-border z-50">
               <SelectItem value="cr">INR Cr</SelectItem>
               <SelectItem value="lakhs">INR Lakhs</SelectItem>
             </SelectContent>

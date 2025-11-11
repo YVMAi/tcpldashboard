@@ -66,8 +66,8 @@ export const SaaSSection = () => {
       <div className="space-y-4">
         <div>
           <h3 className="text-xs font-semibold mb-2 text-foreground">Product-wise Revenue</h3>
-          <div className="overflow-x-auto">
-            <Table>
+          <div className="overflow-x-auto -mx-3 px-3 md:mx-0 md:px-0">
+            <Table className="min-w-[900px]">
               <TableHeader>
                 <TableRow className="bg-muted hover:bg-muted">
                   <TableHead className="cursor-pointer" onClick={() => handleSort('product')}>
