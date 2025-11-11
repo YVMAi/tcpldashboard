@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { ExpandableSection } from "./ExpandableSection";
-import { Cloud } from "lucide-react";
+import { Cloud, ArrowUpDown } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { useCurrency } from "@/contexts/CurrencyContext";
@@ -27,6 +28,29 @@ const monthlyData = [
 
 export const SaaSSection = () => {
   const { currencyUnit } = useCurrency();
+  const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
+
+  const sortedData = [...saasProducts].sort((a, b) => {
+    if (!sortConfig) return 0;
+    
+    const aVal = a[sortConfig.key as keyof typeof a];
+    const bVal = b[sortConfig.key as keyof typeof b];
+    
+    if (typeof aVal === 'string' && typeof bVal === 'string') {
+      return sortConfig.direction === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+    }
+    
+    if (aVal < bVal) return sortConfig.direction === 'asc' ? -1 : 1;
+    if (aVal > bVal) return sortConfig.direction === 'asc' ? 1 : -1;
+    return 0;
+  });
+
+  const handleSort = (key: string) => {
+    setSortConfig(prev => ({
+      key,
+      direction: prev?.key === key && prev.direction === 'asc' ? 'desc' : 'asc'
+    }));
+  };
   
   return (
     <ExpandableSection
@@ -45,22 +69,42 @@ export const SaaSSection = () => {
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
-                <TableRow className="text-xs">
-                  <TableHead>Product</TableHead>
-                  <TableHead className="text-right">AMS GWp</TableHead>
-                  <TableHead>AMS Clients</TableHead>
-                  <TableHead className="text-right">SaaS GWp</TableHead>
-                  <TableHead>SaaS Clients</TableHead>
-                  <TableHead className="text-right">Expected {formatCurrencyLabel(currencyUnit)}</TableHead>
-                  <TableHead className="text-right">Actual {formatCurrencyLabel(currencyUnit)}</TableHead>
-                  <TableHead className="text-right">Variance %</TableHead>
+                <TableRow className="bg-muted hover:bg-muted">
+                  <TableHead className="cursor-pointer" onClick={() => handleSort('product')}>
+                    <div className="flex items-center gap-1 text-xs font-semibold">
+                      Product <ArrowUpDown className="h-3 w-3" />
+                    </div>
+                  </TableHead>
+                  <TableHead className="text-right text-xs font-semibold cursor-pointer" onClick={() => handleSort('amsGWp')}>
+                    <div className="flex items-center justify-end gap-1">
+                      AMS GWp <ArrowUpDown className="h-3 w-3" />
+                    </div>
+                  </TableHead>
+                  <TableHead className="text-xs font-semibold">AMS Clients</TableHead>
+                  <TableHead className="text-right text-xs font-semibold cursor-pointer" onClick={() => handleSort('saasGWp')}>
+                    <div className="flex items-center justify-end gap-1">
+                      SaaS GWp <ArrowUpDown className="h-3 w-3" />
+                    </div>
+                  </TableHead>
+                  <TableHead className="text-xs font-semibold">SaaS Clients</TableHead>
+                  <TableHead className="text-right text-xs font-semibold cursor-pointer" onClick={() => handleSort('expected')}>
+                    <div className="flex items-center justify-end gap-1">
+                      Expected {formatCurrencyLabel(currencyUnit)} <ArrowUpDown className="h-3 w-3" />
+                    </div>
+                  </TableHead>
+                  <TableHead className="text-right text-xs font-semibold cursor-pointer" onClick={() => handleSort('actual')}>
+                    <div className="flex items-center justify-end gap-1">
+                      Actual {formatCurrencyLabel(currencyUnit)} <ArrowUpDown className="h-3 w-3" />
+                    </div>
+                  </TableHead>
+                  <TableHead className="text-right text-xs font-semibold">Variance %</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {saasProducts.map((row, idx) => {
-                  const variance = ((row.actual - row.expected) / row.expected * 100).toFixed(1);
+                {sortedData.map((row, idx) => {
+                  const variance = ((row.actual - row.expected) / row.expected * 100);
                   return (
-                    <TableRow key={idx} className="text-xs">
+                    <TableRow key={idx} className="text-xs hover:bg-accent/10 transition-colors">
                       <TableCell className="font-medium py-2">{row.product}</TableCell>
                       <TableCell className="text-right py-2">{row.amsGWp}</TableCell>
                       <TableCell className="py-2 text-muted-foreground text-[10px]">{row.amsClients}</TableCell>
@@ -68,8 +112,8 @@ export const SaaSSection = () => {
                       <TableCell className="py-2 text-muted-foreground text-[10px]">{row.saasClients}</TableCell>
                       <TableCell className="text-right py-2">{formatCurrency(row.expected, currencyUnit)}</TableCell>
                       <TableCell className="text-right py-2">{formatCurrency(row.actual, currencyUnit)}</TableCell>
-                      <TableCell className={`text-right font-medium py-2 ${parseFloat(variance) > 0 ? 'text-success' : 'text-destructive'}`}>
-                        {parseFloat(variance) > 0 ? '+' : ''}{variance}%
+                      <TableCell className={`text-right font-medium py-2 ${variance > 0 ? 'text-success' : 'text-destructive'}`}>
+                        {variance > 0 ? '+' : ''}{variance.toFixed(2)}%
                       </TableCell>
                     </TableRow>
                   );

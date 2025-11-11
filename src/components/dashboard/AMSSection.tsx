@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { ExpandableSection } from "./ExpandableSection";
-import { Zap } from "lucide-react";
+import { Zap, ArrowUpDown } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { useCurrency } from "@/contexts/CurrencyContext";
@@ -14,6 +15,32 @@ const amsData = [
 
 export const AMSSection = () => {
   const { currencyUnit } = useCurrency();
+  const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
+
+  const sortedData = [...amsData].sort((a, b) => {
+    if (!sortConfig) return 0;
+    
+    const aVal = a[sortConfig.key as keyof typeof a];
+    const bVal = b[sortConfig.key as keyof typeof b];
+    
+    if (aVal < bVal) return sortConfig.direction === 'asc' ? -1 : 1;
+    if (aVal > bVal) return sortConfig.direction === 'asc' ? 1 : -1;
+    return 0;
+  });
+
+  const handleSort = (key: string) => {
+    setSortConfig(prev => ({
+      key,
+      direction: prev?.key === key && prev.direction === 'asc' ? 'desc' : 'asc'
+    }));
+  };
+
+  // Group by type
+  const groupedData = sortedData.reduce((acc, row) => {
+    if (!acc[row.type]) acc[row.type] = [];
+    acc[row.type].push(row);
+    return acc;
+  }, {} as Record<string, typeof amsData>);
   
   return (
     <ExpandableSection
@@ -32,41 +59,71 @@ export const AMSSection = () => {
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
-                <TableRow className="text-xs">
-                  <TableHead>Client</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead className="text-center">Plants</TableHead>
-                  <TableHead className="text-right">Capacity (MW)</TableHead>
-                  <TableHead className="text-right">Expected {formatCurrencyLabel(currencyUnit)}</TableHead>
-                  <TableHead className="text-right">Actual {formatCurrencyLabel(currencyUnit)}</TableHead>
-                  <TableHead className="text-right">Variance %</TableHead>
-                  <TableHead className="text-center">Manpower</TableHead>
-                  <TableHead className="text-center">Status</TableHead>
+                <TableRow className="bg-muted hover:bg-muted">
+                  <TableHead className="cursor-pointer" onClick={() => handleSort('client')}>
+                    <div className="flex items-center gap-1 text-xs font-semibold">
+                      Client <ArrowUpDown className="h-3 w-3" />
+                    </div>
+                  </TableHead>
+                  <TableHead className="text-xs font-semibold">Type</TableHead>
+                  <TableHead className="text-center text-xs font-semibold cursor-pointer" onClick={() => handleSort('plants')}>
+                    <div className="flex items-center justify-center gap-1">
+                      Plants <ArrowUpDown className="h-3 w-3" />
+                    </div>
+                  </TableHead>
+                  <TableHead className="text-right text-xs font-semibold cursor-pointer" onClick={() => handleSort('capacity')}>
+                    <div className="flex items-center justify-end gap-1">
+                      Capacity (MW) <ArrowUpDown className="h-3 w-3" />
+                    </div>
+                  </TableHead>
+                  <TableHead className="text-right text-xs font-semibold cursor-pointer" onClick={() => handleSort('expected')}>
+                    <div className="flex items-center justify-end gap-1">
+                      Expected {formatCurrencyLabel(currencyUnit)} <ArrowUpDown className="h-3 w-3" />
+                    </div>
+                  </TableHead>
+                  <TableHead className="text-right text-xs font-semibold cursor-pointer" onClick={() => handleSort('actual')}>
+                    <div className="flex items-center justify-end gap-1">
+                      Actual {formatCurrencyLabel(currencyUnit)} <ArrowUpDown className="h-3 w-3" />
+                    </div>
+                  </TableHead>
+                  <TableHead className="text-right text-xs font-semibold cursor-pointer" onClick={() => handleSort('variance')}>
+                    <div className="flex items-center justify-end gap-1">
+                      Variance % <ArrowUpDown className="h-3 w-3" />
+                    </div>
+                  </TableHead>
+                  <TableHead className="text-center text-xs font-semibold cursor-pointer" onClick={() => handleSort('manpower')}>
+                    <div className="flex items-center justify-center gap-1">
+                      Manpower <ArrowUpDown className="h-3 w-3" />
+                    </div>
+                  </TableHead>
+                  <TableHead className="text-center text-xs font-semibold">Status</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {amsData.map((row, idx) => (
-                  <TableRow key={idx} className="text-xs">
-                    <TableCell className="font-medium py-2">{row.client}</TableCell>
-                    <TableCell className="py-2">
-                      <Badge variant={row.type === 'AMS' ? 'default' : 'secondary'}>
-                        {row.type}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-center py-2">{row.plants}</TableCell>
-                    <TableCell className="text-right py-2">{row.capacity}</TableCell>
-                    <TableCell className="text-right py-2">{formatCurrency(row.expected, currencyUnit)}</TableCell>
-                    <TableCell className="text-right py-2">{formatCurrency(row.actual, currencyUnit)}</TableCell>
-                    <TableCell className={`text-right font-medium py-2 ${row.variance > 0 ? 'text-success' : 'text-destructive'}`}>
-                      {row.variance > 0 ? '+' : ''}{row.variance}%
-                    </TableCell>
-                    <TableCell className="text-center py-2">{row.manpower}</TableCell>
-                    <TableCell className="text-center py-2">
-                      <Badge variant={row.status === 'on-track' ? 'default' : 'destructive'}>
-                        {row.status === 'on-track' ? 'On Track' : 'Behind'}
-                      </Badge>
-                    </TableCell>
-                  </TableRow>
+                {Object.entries(groupedData).map(([type, rows]) => (
+                  rows.map((row, idx) => (
+                    <TableRow key={`${type}-${idx}`} className="text-xs hover:bg-accent/10 transition-colors">
+                      <TableCell className="font-medium py-2">{row.client}</TableCell>
+                      <TableCell className="py-2">
+                        <Badge variant={row.type === 'AMS' ? 'default' : 'secondary'}>
+                          {row.type}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-center py-2">{row.plants}</TableCell>
+                      <TableCell className="text-right py-2">{row.capacity}</TableCell>
+                      <TableCell className="text-right py-2">{formatCurrency(row.expected, currencyUnit)}</TableCell>
+                      <TableCell className="text-right py-2">{formatCurrency(row.actual, currencyUnit)}</TableCell>
+                      <TableCell className={`text-right font-medium py-2 ${row.variance > 0 ? 'text-success' : 'text-destructive'}`}>
+                        {row.variance > 0 ? '+' : ''}{row.variance.toFixed(2)}%
+                      </TableCell>
+                      <TableCell className="text-center py-2">{row.manpower}</TableCell>
+                      <TableCell className="text-center py-2">
+                        <Badge variant={row.status === 'on-track' ? 'default' : 'destructive'}>
+                          {row.status === 'on-track' ? 'On Track' : 'Behind'}
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
+                  ))
                 ))}
               </TableBody>
             </Table>

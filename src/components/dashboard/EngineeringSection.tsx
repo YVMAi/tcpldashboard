@@ -1,10 +1,10 @@
+import { useState } from "react";
 import { ExpandableSection } from "./ExpandableSection";
-import { Briefcase } from "lucide-react";
+import { Briefcase, ArrowUpDown, TrendingUp, TrendingDown } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { useCurrency } from "@/contexts/CurrencyContext";
-import { formatCurrency } from "@/lib/currency";
-import { TrendingUp, TrendingDown } from "lucide-react";
+import { formatCurrency, formatCurrencyLabel } from "@/lib/currency";
 
 const engineeringData = [
   { client: "Client X", mandateType: "Engineering", status: "Active", manpower: 12, expectedRevenue: 125, actualRevenue: 106 },
@@ -18,6 +18,25 @@ const engineeringData = [
 
 export const EngineeringSection = () => {
   const { currencyUnit } = useCurrency();
+  const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
+
+  const sortedData = [...engineeringData].sort((a, b) => {
+    if (!sortConfig) return 0;
+    
+    const aVal = a[sortConfig.key as keyof typeof a];
+    const bVal = b[sortConfig.key as keyof typeof b];
+    
+    if (aVal < bVal) return sortConfig.direction === 'asc' ? -1 : 1;
+    if (aVal > bVal) return sortConfig.direction === 'asc' ? 1 : -1;
+    return 0;
+  });
+
+  const handleSort = (key: string) => {
+    setSortConfig(prev => ({
+      key,
+      direction: prev?.key === key && prev.direction === 'asc' ? 'desc' : 'asc'
+    }));
+  };
   
   return (
     <ExpandableSection
@@ -35,21 +54,37 @@ export const EngineeringSection = () => {
         <div className="overflow-x-auto rounded-lg border border-border bg-card">
           <Table>
             <TableHeader>
-              <TableRow className="bg-muted/50">
-                <TableHead className="font-semibold text-xs">Client Name</TableHead>
-                <TableHead className="font-semibold text-xs">Type</TableHead>
-                <TableHead className="font-semibold text-xs">Status</TableHead>
-                <TableHead className="font-semibold text-xs text-right">Manpower</TableHead>
-                <TableHead className="font-semibold text-xs text-right">Expected</TableHead>
-                <TableHead className="font-semibold text-xs text-right">Actual</TableHead>
-                <TableHead className="font-semibold text-xs text-right">Variance</TableHead>
+              <TableRow className="bg-muted hover:bg-muted">
+                <TableHead className="cursor-pointer" onClick={() => handleSort('client')}>
+                  <div className="flex items-center gap-1 text-xs font-semibold">
+                    Client Name <ArrowUpDown className="h-3 w-3" />
+                  </div>
+                </TableHead>
+                <TableHead className="text-xs font-semibold">Type</TableHead>
+                <TableHead className="text-xs font-semibold">Status</TableHead>
+                <TableHead className="text-right text-xs font-semibold cursor-pointer" onClick={() => handleSort('manpower')}>
+                  <div className="flex items-center justify-end gap-1">
+                    Manpower <ArrowUpDown className="h-3 w-3" />
+                  </div>
+                </TableHead>
+                <TableHead className="text-right text-xs font-semibold cursor-pointer" onClick={() => handleSort('expectedRevenue')}>
+                  <div className="flex items-center justify-end gap-1">
+                    Expected {formatCurrencyLabel(currencyUnit)} <ArrowUpDown className="h-3 w-3" />
+                  </div>
+                </TableHead>
+                <TableHead className="text-right text-xs font-semibold cursor-pointer" onClick={() => handleSort('actualRevenue')}>
+                  <div className="flex items-center justify-end gap-1">
+                    Actual {formatCurrencyLabel(currencyUnit)} <ArrowUpDown className="h-3 w-3" />
+                  </div>
+                </TableHead>
+                <TableHead className="text-right text-xs font-semibold">Variance %</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {engineeringData.map((row, idx) => {
+              {sortedData.map((row, idx) => {
                 const variance = ((row.actualRevenue - row.expectedRevenue) / row.expectedRevenue * 100);
                 return (
-                  <TableRow key={idx} className="hover:bg-muted/30 transition-colors">
+                  <TableRow key={idx} className="hover:bg-accent/10 transition-colors">
                     <TableCell className="font-medium py-3 text-xs">{row.client}</TableCell>
                     <TableCell className="py-3 text-xs">
                       <Badge variant={row.mandateType === "Engineering" ? "default" : "secondary"} className="text-[10px] font-medium">
@@ -70,7 +105,7 @@ export const EngineeringSection = () => {
                     <TableCell className="py-3 text-xs text-right">
                       <div className={`flex items-center justify-end gap-1 font-medium ${variance >= 0 ? 'text-success' : 'text-destructive'}`}>
                         {variance >= 0 ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
-                        <span>{variance >= 0 ? '+' : ''}{variance.toFixed(1)}%</span>
+                        <span>{variance >= 0 ? '+' : ''}{variance.toFixed(2)}%</span>
                       </div>
                     </TableCell>
                   </TableRow>
