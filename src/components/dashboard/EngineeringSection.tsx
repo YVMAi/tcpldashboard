@@ -1,9 +1,11 @@
 import { ExpandableSection } from "./ExpandableSection";
 import { Briefcase } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { formatCurrency } from "@/lib/currency";
+import { TrendingUp, TrendingDown } from "lucide-react";
 
 const engineeringData = [
   { client: "Client X", mandateType: "Engineering", status: "Active", manpower: 12, expectedRevenue: 125, actualRevenue: 106 },
@@ -36,63 +38,92 @@ export const EngineeringSection = () => {
       ]}
     >
       <div className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <h3 className="text-xs font-semibold mb-2 text-foreground">Client Mandates Overview</h3>
-            <div className="overflow-x-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="lg:col-span-2">
+            <h3 className="text-sm font-semibold mb-3 text-foreground">Client Mandates Overview</h3>
+            <div className="overflow-x-auto rounded-lg border border-border bg-card">
               <Table>
                 <TableHeader>
-                  <TableRow className="text-xs">
-                    <TableHead>Client Name</TableHead>
-                    <TableHead>Type</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Manpower</TableHead>
-                    <TableHead>Expected Rev</TableHead>
-                    <TableHead>Actual Rev</TableHead>
+                  <TableRow className="bg-muted/50">
+                    <TableHead className="font-semibold text-xs">Client Name</TableHead>
+                    <TableHead className="font-semibold text-xs">Type</TableHead>
+                    <TableHead className="font-semibold text-xs">Status</TableHead>
+                    <TableHead className="font-semibold text-xs text-right">Manpower</TableHead>
+                    <TableHead className="font-semibold text-xs text-right">Expected</TableHead>
+                    <TableHead className="font-semibold text-xs text-right">Actual</TableHead>
+                    <TableHead className="font-semibold text-xs text-right">Variance</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {engineeringData.map((row, idx) => (
-                    <TableRow key={idx} className="text-xs">
-                      <TableCell className="font-medium py-2">{row.client}</TableCell>
-                      <TableCell className="py-2">{row.mandateType}</TableCell>
-                      <TableCell className="py-2">
-                        <span className={row.status === "Active" ? "text-accent" : "text-muted-foreground"}>
-                          {row.status}
-                        </span>
-                      </TableCell>
-                      <TableCell className="py-2">{row.manpower}</TableCell>
-                      <TableCell className="py-2">{formatCurrency(row.expectedRevenue, currencyUnit)}</TableCell>
-                      <TableCell className="py-2">{formatCurrency(row.actualRevenue, currencyUnit)}</TableCell>
-                    </TableRow>
-                  ))}
+                  {engineeringData.map((row, idx) => {
+                    const variance = ((row.actualRevenue - row.expectedRevenue) / row.expectedRevenue * 100);
+                    return (
+                      <TableRow key={idx} className="hover:bg-muted/30 transition-colors">
+                        <TableCell className="font-medium py-3 text-xs">{row.client}</TableCell>
+                        <TableCell className="py-3 text-xs">
+                          <Badge variant={row.mandateType === "Engineering" ? "default" : "secondary"} className="text-[10px] font-medium">
+                            {row.mandateType}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="py-3 text-xs">
+                          <Badge 
+                            variant={row.status === "Active" ? "outline" : "secondary"}
+                            className={row.status === "Active" ? "border-accent text-accent" : ""}
+                          >
+                            {row.status}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="py-3 text-xs text-right font-medium">{row.manpower}</TableCell>
+                        <TableCell className="py-3 text-xs text-right text-muted-foreground">{formatCurrency(row.expectedRevenue, currencyUnit)}</TableCell>
+                        <TableCell className="py-3 text-xs text-right font-medium">{formatCurrency(row.actualRevenue, currencyUnit)}</TableCell>
+                        <TableCell className="py-3 text-xs text-right">
+                          <div className={`flex items-center justify-end gap-1 font-medium ${variance >= 0 ? 'text-success' : 'text-destructive'}`}>
+                            {variance >= 0 ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
+                            <span>{variance >= 0 ? '+' : ''}{variance.toFixed(1)}%</span>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </div>
           </div>
 
-          <div>
-            <h3 className="text-xs font-semibold mb-2 text-foreground">Mandate Completion Status</h3>
-            <ResponsiveContainer width="100%" height={180}>
-              <PieChart>
-                <Pie
-                  data={pieData}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="value"
-                >
-                  {pieData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip />
-                <Legend />
-              </PieChart>
-            </ResponsiveContainer>
+          <div className="lg:col-span-1">
+            <h3 className="text-sm font-semibold mb-3 text-foreground">Mandate Completion Status</h3>
+            <div className="rounded-lg border border-border bg-card p-4">
+              <ResponsiveContainer width="100%" height={200}>
+                <PieChart>
+                  <Pie
+                    data={pieData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                    outerRadius={70}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {pieData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: 'hsl(var(--card))', 
+                      border: '1px solid hsl(var(--border))',
+                      borderRadius: '6px',
+                      fontSize: '12px'
+                    }}
+                  />
+                  <Legend 
+                    wrapperStyle={{ fontSize: '12px' }}
+                    iconType="circle"
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         </div>
       </div>
