@@ -40,45 +40,48 @@ export const EngineeringSection = () => {
       <div className="space-y-4">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2">
-            <h3 className="text-sm font-semibold mb-3 text-foreground">Client Mandates Overview</h3>
-            <div className="overflow-x-auto rounded-lg border border-border bg-card">
+            <h3 className="text-sm font-semibold mb-3 text-primary">Client Mandates Overview</h3>
+            <div className="overflow-x-auto rounded-lg border border-border/50 bg-card shadow-sm">
               <Table>
                 <TableHeader>
-                  <TableRow className="bg-muted/50">
-                    <TableHead className="font-semibold text-xs">Client Name</TableHead>
-                    <TableHead className="font-semibold text-xs">Type</TableHead>
-                    <TableHead className="font-semibold text-xs">Status</TableHead>
-                    <TableHead className="font-semibold text-xs text-right">Manpower</TableHead>
-                    <TableHead className="font-semibold text-xs text-right">Expected</TableHead>
-                    <TableHead className="font-semibold text-xs text-right">Actual</TableHead>
-                    <TableHead className="font-semibold text-xs text-right">Variance</TableHead>
+                  <TableRow className="bg-muted/30 hover:bg-muted/30">
+                    <TableHead className="font-semibold text-[13px] text-typography-primary">Client Name</TableHead>
+                    <TableHead className="font-semibold text-[13px] text-typography-primary">Type</TableHead>
+                    <TableHead className="font-semibold text-[13px] text-typography-primary">Status</TableHead>
+                    <TableHead className="font-semibold text-[13px] text-right text-typography-primary">Manpower</TableHead>
+                    <TableHead className="font-semibold text-[13px] text-right text-typography-primary">Expected</TableHead>
+                    <TableHead className="font-semibold text-[13px] text-right text-typography-primary">Actual</TableHead>
+                    <TableHead className="font-semibold text-[13px] text-right text-typography-primary">Variance</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {engineeringData.map((row, idx) => {
                     const variance = ((row.actualRevenue - row.expectedRevenue) / row.expectedRevenue * 100);
                     return (
-                      <TableRow key={idx} className="hover:bg-muted/30 transition-colors">
-                        <TableCell className="font-medium py-3 text-xs">{row.client}</TableCell>
-                        <TableCell className="py-3 text-xs">
-                          <Badge variant={row.mandateType === "Engineering" ? "default" : "secondary"} className="text-[10px] font-medium">
+                      <TableRow key={idx} className="hover:bg-muted/20 transition-colors border-b border-border/30">
+                        <TableCell className="font-medium py-3.5 text-[13px] text-typography-primary">{row.client}</TableCell>
+                        <TableCell className="py-3.5">
+                          <Badge 
+                            variant={row.mandateType === "Engineering" ? "default" : "secondary"} 
+                            className="text-[11px] font-medium px-2.5 py-0.5"
+                          >
                             {row.mandateType}
                           </Badge>
                         </TableCell>
-                        <TableCell className="py-3 text-xs">
+                        <TableCell className="py-3.5">
                           <Badge 
                             variant={row.status === "Active" ? "outline" : "secondary"}
-                            className={row.status === "Active" ? "border-accent text-accent" : ""}
+                            className={`text-[11px] font-medium px-2.5 py-0.5 ${row.status === "Active" ? "border-accent text-accent bg-accent/5" : ""}`}
                           >
                             {row.status}
                           </Badge>
                         </TableCell>
-                        <TableCell className="py-3 text-xs text-right font-medium">{row.manpower}</TableCell>
-                        <TableCell className="py-3 text-xs text-right text-muted-foreground">{formatCurrency(row.expectedRevenue, currencyUnit)}</TableCell>
-                        <TableCell className="py-3 text-xs text-right font-medium">{formatCurrency(row.actualRevenue, currencyUnit)}</TableCell>
-                        <TableCell className="py-3 text-xs text-right">
-                          <div className={`flex items-center justify-end gap-1 font-medium ${variance >= 0 ? 'text-success' : 'text-destructive'}`}>
-                            {variance >= 0 ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
+                        <TableCell className="py-3.5 text-[13px] text-right font-medium text-typography-secondary">{row.manpower}</TableCell>
+                        <TableCell className="py-3.5 text-[13px] text-right text-typography-secondary">{formatCurrency(row.expectedRevenue, currencyUnit)}</TableCell>
+                        <TableCell className="py-3.5 text-[13px] text-right font-medium text-typography-primary">{formatCurrency(row.actualRevenue, currencyUnit)}</TableCell>
+                        <TableCell className="py-3.5 text-[13px] text-right">
+                          <div className={`flex items-center justify-end gap-1 font-semibold ${variance >= 0 ? 'text-success' : 'text-destructive'}`}>
+                            {variance >= 0 ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}
                             <span>{variance >= 0 ? '+' : ''}{variance.toFixed(1)}%</span>
                           </div>
                         </TableCell>
@@ -91,8 +94,8 @@ export const EngineeringSection = () => {
           </div>
 
           <div className="lg:col-span-1">
-            <h3 className="text-sm font-semibold mb-3 text-foreground">Mandate Completion Status</h3>
-            <div className="rounded-lg border border-border bg-card p-4">
+            <h3 className="text-sm font-semibold mb-3 text-primary">Mandate Completion Status</h3>
+            <div className="rounded-lg border border-border/50 bg-card p-4 shadow-sm">
               <ResponsiveContainer width="100%" height={200}>
                 <PieChart>
                   <Pie

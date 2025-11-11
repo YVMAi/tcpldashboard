@@ -41,6 +41,7 @@ export default {
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
+          hover: "hsl(var(--accent-hover))",
         },
         success: {
           DEFAULT: "hsl(var(--success))",
@@ -49,6 +50,10 @@ export default {
         warning: {
           DEFAULT: "hsl(var(--warning))",
           foreground: "hsl(var(--warning-foreground))",
+        },
+        typography: {
+          primary: "hsl(var(--typography-primary))",
+          secondary: "hsl(var(--typography-secondary))",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",

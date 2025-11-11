@@ -28,41 +28,47 @@ export const AMSSection = () => {
     >
       <div className="space-y-4">
         <div>
-          <h3 className="text-xs font-semibold mb-2 text-foreground">Contract Performance</h3>
-          <div className="overflow-x-auto">
+          <h3 className="text-sm font-semibold mb-3 text-primary">Contract Performance</h3>
+          <div className="overflow-x-auto rounded-lg border border-border/50 bg-card shadow-sm">
             <Table>
               <TableHeader>
-                <TableRow className="text-xs">
-                  <TableHead>Client</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead className="text-center">Plants</TableHead>
-                  <TableHead className="text-right">Capacity (MW)</TableHead>
-                  <TableHead className="text-right">Expected {formatCurrencyLabel(currencyUnit)}</TableHead>
-                  <TableHead className="text-right">Actual {formatCurrencyLabel(currencyUnit)}</TableHead>
-                  <TableHead className="text-right">Variance %</TableHead>
-                  <TableHead className="text-center">Manpower</TableHead>
-                  <TableHead className="text-center">Status</TableHead>
+                <TableRow className="bg-muted/30 hover:bg-muted/30">
+                  <TableHead className="font-semibold text-[13px] text-typography-primary">Client</TableHead>
+                  <TableHead className="font-semibold text-[13px] text-typography-primary">Type</TableHead>
+                  <TableHead className="text-center font-semibold text-[13px] text-typography-primary">Plants</TableHead>
+                  <TableHead className="text-right font-semibold text-[13px] text-typography-primary">Capacity (MW)</TableHead>
+                  <TableHead className="text-right font-semibold text-[13px] text-typography-primary">Expected {formatCurrencyLabel(currencyUnit)}</TableHead>
+                  <TableHead className="text-right font-semibold text-[13px] text-typography-primary">Actual {formatCurrencyLabel(currencyUnit)}</TableHead>
+                  <TableHead className="text-right font-semibold text-[13px] text-typography-primary">Variance</TableHead>
+                  <TableHead className="text-center font-semibold text-[13px] text-typography-primary">Manpower</TableHead>
+                  <TableHead className="text-center font-semibold text-[13px] text-typography-primary">Status</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {amsData.map((row, idx) => (
-                  <TableRow key={idx} className="text-xs">
-                    <TableCell className="font-medium py-2">{row.client}</TableCell>
-                    <TableCell className="py-2">
-                      <Badge variant={row.type === 'AMS' ? 'default' : 'secondary'}>
+                  <TableRow key={idx} className="hover:bg-muted/20 transition-colors border-b border-border/30">
+                    <TableCell className="font-medium py-3.5 text-[13px] text-typography-primary">{row.client}</TableCell>
+                    <TableCell className="py-3.5">
+                      <Badge 
+                        variant={row.type === 'AMS' ? 'default' : 'secondary'}
+                        className="text-[11px] font-medium px-2.5 py-0.5"
+                      >
                         {row.type}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-center py-2">{row.plants}</TableCell>
-                    <TableCell className="text-right py-2">{row.capacity}</TableCell>
-                    <TableCell className="text-right py-2">{formatCurrency(row.expected, currencyUnit)}</TableCell>
-                    <TableCell className="text-right py-2">{formatCurrency(row.actual, currencyUnit)}</TableCell>
-                    <TableCell className={`text-right font-medium py-2 ${row.variance > 0 ? 'text-success' : 'text-destructive'}`}>
+                    <TableCell className="text-center py-3.5 text-[13px] text-typography-secondary">{row.plants}</TableCell>
+                    <TableCell className="text-right py-3.5 text-[13px] font-medium text-typography-primary">{row.capacity}</TableCell>
+                    <TableCell className="text-right py-3.5 text-[13px] text-typography-secondary">{formatCurrency(row.expected, currencyUnit)}</TableCell>
+                    <TableCell className="text-right py-3.5 text-[13px] font-medium text-typography-primary">{formatCurrency(row.actual, currencyUnit)}</TableCell>
+                    <TableCell className={`text-right font-semibold py-3.5 text-[13px] ${row.variance > 0 ? 'text-success' : 'text-destructive'}`}>
                       {row.variance > 0 ? '+' : ''}{row.variance}%
                     </TableCell>
-                    <TableCell className="text-center py-2">{row.manpower}</TableCell>
-                    <TableCell className="text-center py-2">
-                      <Badge variant={row.status === 'on-track' ? 'default' : 'destructive'}>
+                    <TableCell className="text-center py-3.5 text-[13px] text-typography-secondary">{row.manpower}</TableCell>
+                    <TableCell className="text-center py-3.5">
+                      <Badge 
+                        variant={row.status === 'on-track' ? 'default' : 'destructive'}
+                        className="text-[11px] font-medium px-2.5 py-0.5"
+                      >
                         {row.status === 'on-track' ? 'On Track' : 'Behind'}
                       </Badge>
                     </TableCell>
