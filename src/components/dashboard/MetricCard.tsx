@@ -9,9 +9,10 @@ interface MetricCardProps {
   variance?: number;
   icon?: React.ReactNode;
   trend?: 'up' | 'down' | 'neutral';
+  comparisonText?: string;
 }
 
-export const MetricCard = ({ title, value, subtitle, variance, icon, trend }: MetricCardProps) => {
+export const MetricCard = ({ title, value, subtitle, variance, icon, trend, comparisonText }: MetricCardProps) => {
   const getTrendIcon = () => {
     if (variance === undefined) return null;
     
@@ -27,6 +28,15 @@ export const MetricCard = ({ title, value, subtitle, variance, icon, trend }: Me
     return "text-warning";
   };
 
+  const getComparisonText = () => {
+    if (!variance) return null;
+    
+    const direction = variance > 0 ? 'higher' : 'lower';
+    const defaultText = `${Math.abs(variance)}% ${direction} compared to FY25`;
+    
+    return comparisonText !== undefined ? comparisonText : defaultText;
+  };
+
   return (
     <Card className="p-3 hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between mb-2">
@@ -39,9 +49,16 @@ export const MetricCard = ({ title, value, subtitle, variance, icon, trend }: Me
         {subtitle && <p className="text-[10px] text-muted-foreground">{subtitle}</p>}
         
         {variance !== undefined && (
-          <div className={cn("flex items-center gap-0.5 text-xs font-medium", getTrendColor())}>
-            {getTrendIcon()}
-            <span>{Math.abs(variance)}%</span>
+          <div className="space-y-0.5">
+            <div className={cn("flex items-center gap-0.5 text-xs font-medium", getTrendColor())}>
+              {getTrendIcon()}
+              <span>{Math.abs(variance)}%</span>
+            </div>
+            {getComparisonText() && (
+              <p className="text-[10px] text-muted-foreground">
+                {getComparisonText()}
+              </p>
+            )}
           </div>
         )}
       </div>
