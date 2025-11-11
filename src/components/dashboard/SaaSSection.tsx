@@ -41,34 +41,34 @@ export const SaaSSection = () => {
     >
       <div className="space-y-4">
         <div>
-          <h3 className="text-sm font-semibold mb-3 text-primary">Product-wise Revenue</h3>
-          <div className="overflow-x-auto rounded-lg border border-border/50 shadow-sm">
+          <h3 className="text-xs font-semibold mb-2 text-foreground">Product-wise Revenue</h3>
+          <div className="overflow-x-auto">
             <Table>
               <TableHeader>
-                <TableRow className="bg-muted/30 hover:bg-muted/30">
-                  <TableHead className="font-semibold text-[13px] text-typography-primary">Product</TableHead>
-                  <TableHead className="text-right font-semibold text-[13px] text-typography-primary">AMS GWp</TableHead>
-                  <TableHead className="font-semibold text-[13px] text-typography-primary">AMS Clients</TableHead>
-                  <TableHead className="text-right font-semibold text-[13px] text-typography-primary">SaaS GWp</TableHead>
-                  <TableHead className="font-semibold text-[13px] text-typography-primary">SaaS Clients</TableHead>
-                  <TableHead className="text-right font-semibold text-[13px] text-typography-primary">Expected {formatCurrencyLabel(currencyUnit)}</TableHead>
-                  <TableHead className="text-right font-semibold text-[13px] text-typography-primary">Actual {formatCurrencyLabel(currencyUnit)}</TableHead>
-                  <TableHead className="text-right font-semibold text-[13px] text-typography-primary">Variance</TableHead>
+                <TableRow className="text-xs">
+                  <TableHead>Product</TableHead>
+                  <TableHead className="text-right">AMS GWp</TableHead>
+                  <TableHead>AMS Clients</TableHead>
+                  <TableHead className="text-right">SaaS GWp</TableHead>
+                  <TableHead>SaaS Clients</TableHead>
+                  <TableHead className="text-right">Expected {formatCurrencyLabel(currencyUnit)}</TableHead>
+                  <TableHead className="text-right">Actual {formatCurrencyLabel(currencyUnit)}</TableHead>
+                  <TableHead className="text-right">Variance %</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {saasProducts.map((row, idx) => {
                   const variance = ((row.actual - row.expected) / row.expected * 100).toFixed(1);
                   return (
-                    <TableRow key={idx} className="hover:bg-muted/20 transition-colors border-b border-border/30">
-                      <TableCell className="font-medium py-3.5 text-[13px] text-typography-primary">{row.product}</TableCell>
-                      <TableCell className="text-right py-3.5 text-[13px] font-medium text-typography-primary">{row.amsGWp}</TableCell>
-                      <TableCell className="py-3.5 text-muted-foreground text-[12px]">{row.amsClients}</TableCell>
-                      <TableCell className="text-right py-3.5 text-[13px] font-medium text-typography-primary">{row.saasGWp}</TableCell>
-                      <TableCell className="py-3.5 text-muted-foreground text-[12px]">{row.saasClients}</TableCell>
-                      <TableCell className="text-right py-3.5 text-[13px] text-typography-secondary">{formatCurrency(row.expected, currencyUnit)}</TableCell>
-                      <TableCell className="text-right py-3.5 text-[13px] font-medium text-typography-primary">{formatCurrency(row.actual, currencyUnit)}</TableCell>
-                      <TableCell className={`text-right font-semibold py-3.5 text-[13px] ${parseFloat(variance) > 0 ? 'text-success' : 'text-destructive'}`}>
+                    <TableRow key={idx} className="text-xs">
+                      <TableCell className="font-medium py-2">{row.product}</TableCell>
+                      <TableCell className="text-right py-2">{row.amsGWp}</TableCell>
+                      <TableCell className="py-2 text-muted-foreground text-[10px]">{row.amsClients}</TableCell>
+                      <TableCell className="text-right py-2">{row.saasGWp}</TableCell>
+                      <TableCell className="py-2 text-muted-foreground text-[10px]">{row.saasClients}</TableCell>
+                      <TableCell className="text-right py-2">{formatCurrency(row.expected, currencyUnit)}</TableCell>
+                      <TableCell className="text-right py-2">{formatCurrency(row.actual, currencyUnit)}</TableCell>
+                      <TableCell className={`text-right font-medium py-2 ${parseFloat(variance) > 0 ? 'text-success' : 'text-destructive'}`}>
                         {parseFloat(variance) > 0 ? '+' : ''}{variance}%
                       </TableCell>
                     </TableRow>
@@ -79,40 +79,16 @@ export const SaaSSection = () => {
           </div>
         </div>
 
-        <div className="rounded-lg border border-border/50 p-4 bg-card shadow-sm">
-          <h3 className="text-sm font-semibold mb-3 text-primary">Monthly Billing Trend (FY26)</h3>
-          <ResponsiveContainer width="100%" height={220}>
+        <div>
+          <h3 className="text-xs font-semibold mb-2 text-foreground">Monthly Billing Trend (FY26)</h3>
+          <ResponsiveContainer width="100%" height={200}>
             <LineChart data={monthlyData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis 
-                dataKey="month" 
-                tick={{ fill: 'hsl(var(--typography-secondary))', fontSize: 12 }}
-                stroke="hsl(var(--border))"
-              />
-              <YAxis 
-                tick={{ fill: 'hsl(var(--typography-secondary))', fontSize: 12 }}
-                stroke="hsl(var(--border))"
-              />
-              <Tooltip 
-                contentStyle={{ 
-                  backgroundColor: 'hsl(var(--card))', 
-                  border: '1px solid hsl(var(--border))',
-                  borderRadius: '8px',
-                  fontSize: '13px'
-                }}
-              />
-              <Legend 
-                wrapperStyle={{ fontSize: '13px', color: 'hsl(var(--typography-secondary))' }}
-              />
-              <Line 
-                type="monotone" 
-                dataKey="billing" 
-                stroke="hsl(var(--accent))" 
-                strokeWidth={2.5} 
-                name={`Billing ${formatCurrencyLabel(currencyUnit)}`}
-                dot={{ fill: 'hsl(var(--accent))', r: 4 }}
-                activeDot={{ r: 6 }}
-              />
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="billing" stroke="hsl(var(--primary))" strokeWidth={2} name={`Billing ${formatCurrencyLabel(currencyUnit)}`} />
             </LineChart>
           </ResponsiveContainer>
         </div>
