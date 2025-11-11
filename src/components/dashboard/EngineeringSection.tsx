@@ -37,6 +37,13 @@ export const EngineeringSection = () => {
       direction: prev?.key === key && prev.direction === 'asc' ? 'desc' : 'asc'
     }));
   };
+
+  // Group by mandate type
+  const groupedData = sortedData.reduce((acc, row) => {
+    if (!acc[row.mandateType]) acc[row.mandateType] = [];
+    acc[row.mandateType].push(row);
+    return acc;
+  }, {} as Record<string, typeof engineeringData>);
   
   return (
     <ExpandableSection
@@ -81,36 +88,45 @@ export const EngineeringSection = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {sortedData.map((row, idx) => {
-                const variance = ((row.actualRevenue - row.expectedRevenue) / row.expectedRevenue * 100);
-                return (
-                  <TableRow key={idx} className="hover:bg-accent/10 transition-colors">
-                    <TableCell className="font-medium py-3 text-xs">{row.client}</TableCell>
-                    <TableCell className="py-3 text-xs">
-                      <Badge variant={row.mandateType === "Engineering" ? "default" : "secondary"} className="text-[10px] font-medium">
-                        {row.mandateType}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="py-3 text-xs">
-                      <Badge 
-                        variant={row.status === "Active" ? "outline" : "secondary"}
-                        className={row.status === "Active" ? "border-accent text-accent" : ""}
-                      >
-                        {row.status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="py-3 text-xs text-right font-medium">{row.manpower}</TableCell>
-                    <TableCell className="py-3 text-xs text-right text-muted-foreground">{formatCurrency(row.expectedRevenue, currencyUnit)}</TableCell>
-                    <TableCell className="py-3 text-xs text-right font-medium">{formatCurrency(row.actualRevenue, currencyUnit)}</TableCell>
-                    <TableCell className="py-3 text-xs text-right">
-                      <div className={`flex items-center justify-end gap-1 font-medium ${variance >= 0 ? 'text-success' : 'text-destructive'}`}>
-                        {variance >= 0 ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
-                        <span>{variance >= 0 ? '+' : ''}{variance.toFixed(2)}%</span>
-                      </div>
+              {Object.entries(groupedData).map(([mandateType, rows]) => (
+                <>
+                  <TableRow key={`group-${mandateType}`} className="bg-muted/30">
+                    <TableCell colSpan={7} className="font-semibold text-xs py-2">
+                      {mandateType} ({rows.length})
                     </TableCell>
                   </TableRow>
-                );
-              })}
+                  {rows.map((row, idx) => {
+                    const variance = ((row.actualRevenue - row.expectedRevenue) / row.expectedRevenue * 100);
+                    return (
+                      <TableRow key={`${mandateType}-${idx}`} className="hover:bg-accent/10 transition-colors">
+                        <TableCell className="font-medium py-3 text-xs">{row.client}</TableCell>
+                        <TableCell className="py-3 text-xs">
+                          <Badge variant={row.mandateType === "Engineering" ? "default" : "secondary"} className="text-[10px] font-medium">
+                            {row.mandateType}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="py-3 text-xs">
+                          <Badge 
+                            variant={row.status === "Active" ? "outline" : "secondary"}
+                            className={row.status === "Active" ? "border-accent text-accent" : ""}
+                          >
+                            {row.status}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="py-3 text-xs text-right font-medium">{row.manpower}</TableCell>
+                        <TableCell className="py-3 text-xs text-right text-muted-foreground">{formatCurrency(row.expectedRevenue, currencyUnit)}</TableCell>
+                        <TableCell className="py-3 text-xs text-right font-medium">{formatCurrency(row.actualRevenue, currencyUnit)}</TableCell>
+                        <TableCell className="py-3 text-xs text-right">
+                          <div className={`flex items-center justify-end gap-1 font-medium ${variance >= 0 ? 'text-success' : 'text-destructive'}`}>
+                            {variance >= 0 ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
+                            <span>{variance >= 0 ? '+' : ''}{variance.toFixed(2)}%</span>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </>
+              ))}
             </TableBody>
           </Table>
         </div>
