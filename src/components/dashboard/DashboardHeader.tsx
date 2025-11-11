@@ -22,9 +22,9 @@ export const DashboardHeader = () => {
           <p className="text-xs opacity-90">Last Updated: {currentDate}</p>
         </div>
         
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex items-center gap-2 overflow-x-auto -mx-1 px-1 md:mx-0 md:px-0">
           <Select defaultValue="fy26">
-            <SelectTrigger className="w-[120px] h-8 text-xs bg-card text-card-foreground">
+            <SelectTrigger className="w-[100px] h-8 text-xs bg-card text-card-foreground flex-shrink-0">
               <SelectValue placeholder="Financial Year" />
             </SelectTrigger>
             <SelectContent className="bg-card border-border z-50">
@@ -35,7 +35,7 @@ export const DashboardHeader = () => {
           </Select>
 
           <Select value={currencyUnit} onValueChange={(value) => setCurrencyUnit(value as "cr" | "lakhs")}>
-            <SelectTrigger className="w-[120px] h-8 text-xs bg-card text-card-foreground">
+            <SelectTrigger className="w-[90px] h-8 text-xs bg-card text-card-foreground flex-shrink-0">
               <SelectValue placeholder="Currency" />
             </SelectTrigger>
             <SelectContent className="bg-card border-border z-50">
@@ -44,12 +44,12 @@ export const DashboardHeader = () => {
             </SelectContent>
           </Select>
 
-          <div className="flex gap-1.5">
-            <Button variant="secondary" size="sm" className="gap-1.5 h-8 px-2.5 text-xs">
+          <div className="flex gap-1.5 flex-shrink-0">
+            <Button variant="secondary" size="sm" className="gap-1 h-8 px-2 text-xs whitespace-nowrap">
               <FileDown className="h-3.5 w-3.5" />
               PDF
             </Button>
-            <Button variant="secondary" size="sm" className="gap-1.5 h-8 px-2.5 text-xs">
+            <Button variant="secondary" size="sm" className="gap-1 h-8 px-2 text-xs whitespace-nowrap">
               <FileSpreadsheet className="h-3.5 w-3.5" />
               Excel
             </Button>
