@@ -16,6 +16,7 @@ const amsData = [
 export const AMSSection = () => {
   const { currencyUnit } = useCurrency();
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
+  const [isGrouped, setIsGrouped] = useState(true);
 
   const sortedData = [...amsData].sort((a, b) => {
     if (!sortConfig) return 0;
@@ -36,11 +37,11 @@ export const AMSSection = () => {
   };
 
   // Group by type
-  const groupedData = sortedData.reduce((acc, row) => {
+  const groupedData = isGrouped ? sortedData.reduce((acc, row) => {
     if (!acc[row.type]) acc[row.type] = [];
     acc[row.type].push(row);
     return acc;
-  }, {} as Record<string, typeof amsData>);
+  }, {} as Record<string, typeof amsData>) : { 'All': sortedData };
   
   return (
     <ExpandableSection
@@ -55,7 +56,15 @@ export const AMSSection = () => {
     >
       <div className="space-y-4">
         <div>
-          <h3 className="text-xs font-semibold mb-2 text-foreground">Contract Performance</h3>
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-xs font-semibold text-foreground">Contract Performance</h3>
+            <button
+              onClick={() => setIsGrouped(!isGrouped)}
+              className="text-xs px-3 py-1 rounded-md bg-accent text-accent-foreground hover:bg-accent/90 transition-colors"
+            >
+              {isGrouped ? 'Ungroup' : 'Group by Type'}
+            </button>
+          </div>
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
@@ -101,29 +110,38 @@ export const AMSSection = () => {
               </TableHeader>
               <TableBody>
                 {Object.entries(groupedData).map(([type, rows]) => (
-                  rows.map((row, idx) => (
-                    <TableRow key={`${type}-${idx}`} className="text-xs hover:bg-accent/10 transition-colors">
-                      <TableCell className="font-medium py-2">{row.client}</TableCell>
-                      <TableCell className="py-2">
-                        <Badge variant={row.type === 'AMS' ? 'default' : 'secondary'}>
-                          {row.type}
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-center py-2">{row.plants}</TableCell>
-                      <TableCell className="text-right py-2">{row.capacity}</TableCell>
-                      <TableCell className="text-right py-2">{formatCurrency(row.expected, currencyUnit)}</TableCell>
-                      <TableCell className="text-right py-2">{formatCurrency(row.actual, currencyUnit)}</TableCell>
-                      <TableCell className={`text-right font-medium py-2 ${row.variance > 0 ? 'text-success' : 'text-destructive'}`}>
-                        {row.variance > 0 ? '+' : ''}{row.variance.toFixed(2)}%
-                      </TableCell>
-                      <TableCell className="text-center py-2">{row.manpower}</TableCell>
-                      <TableCell className="text-center py-2">
-                        <Badge variant={row.status === 'on-track' ? 'default' : 'destructive'}>
-                          {row.status === 'on-track' ? 'On Track' : 'Behind'}
-                        </Badge>
-                      </TableCell>
-                    </TableRow>
-                  ))
+                  <>
+                    {isGrouped && type !== 'All' && (
+                      <TableRow key={`group-${type}`} className="bg-muted/30">
+                        <TableCell colSpan={9} className="font-semibold text-xs py-2">
+                          {type} ({rows.length})
+                        </TableCell>
+                      </TableRow>
+                    )}
+                    {rows.map((row, idx) => (
+                      <TableRow key={`${type}-${idx}`} className="text-xs hover:bg-accent/10 transition-colors">
+                        <TableCell className="font-medium py-2">{row.client}</TableCell>
+                        <TableCell className="py-2">
+                          <Badge variant={row.type === 'AMS' ? 'default' : 'secondary'}>
+                            {row.type}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="text-center py-2">{row.plants}</TableCell>
+                        <TableCell className="text-right py-2">{row.capacity}</TableCell>
+                        <TableCell className="text-right py-2">{formatCurrency(row.expected, currencyUnit)}</TableCell>
+                        <TableCell className="text-right py-2">{formatCurrency(row.actual, currencyUnit)}</TableCell>
+                        <TableCell className={`text-right font-medium py-2 ${row.variance > 0 ? 'text-success' : 'text-destructive'}`}>
+                          {row.variance > 0 ? '+' : ''}{row.variance.toFixed(2)}%
+                        </TableCell>
+                        <TableCell className="text-center py-2">{row.manpower}</TableCell>
+                        <TableCell className="text-center py-2">
+                          <Badge variant={row.status === 'on-track' ? 'default' : 'destructive'}>
+                            {row.status === 'on-track' ? 'On Track' : 'Behind'}
+                          </Badge>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </>
                 ))}
               </TableBody>
             </Table>

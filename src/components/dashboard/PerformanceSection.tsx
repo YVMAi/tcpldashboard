@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -24,12 +25,42 @@ const complianceData = [
 ];
 
 export const PerformanceSection = () => {
+  const [isHseGrouped, setIsHseGrouped] = useState(true);
+  const [isGenerationGrouped, setIsGenerationGrouped] = useState(true);
+  const [isComplianceGrouped, setIsComplianceGrouped] = useState(true);
+
+  const groupedHseIncidents = isHseGrouped ? hseIncidents.reduce((acc, incident) => {
+    if (!acc[incident.severity]) acc[incident.severity] = [];
+    acc[incident.severity].push(incident);
+    return acc;
+  }, {} as Record<string, typeof hseIncidents>) : { 'All': hseIncidents };
+
+  const groupedGenerationData = isGenerationGrouped ? generationData.reduce((acc, row) => {
+    if (!acc[row.performanceCategory]) acc[row.performanceCategory] = [];
+    acc[row.performanceCategory].push(row);
+    return acc;
+  }, {} as Record<string, typeof generationData>) : { 'All': generationData };
+
+  const groupedComplianceData = isComplianceGrouped ? complianceData.reduce((acc, row) => {
+    if (!acc[row.complianceLevel]) acc[row.complianceLevel] = [];
+    acc[row.complianceLevel].push(row);
+    return acc;
+  }, {} as Record<string, typeof complianceData>) : { 'All': complianceData };
+
   return (
     <div className="space-y-3">
       <Card className="p-3">
-        <div className="flex items-center gap-2 mb-2">
-          <AlertTriangle className="h-4 w-4 text-warning" />
-          <h2 className="text-base font-bold text-foreground">HSE Incidents</h2>
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-2">
+            <AlertTriangle className="h-4 w-4 text-warning" />
+            <h2 className="text-base font-bold text-foreground">HSE Incidents</h2>
+          </div>
+          <button
+            onClick={() => setIsHseGrouped(!isHseGrouped)}
+            className="text-xs px-3 py-1 rounded-md bg-accent text-accent-foreground hover:bg-accent/90 transition-colors"
+          >
+            {isHseGrouped ? 'Ungroup' : 'Group by Severity'}
+          </button>
         </div>
           <div className="overflow-x-auto">
             <Table>
@@ -42,19 +73,15 @@ export const PerformanceSection = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {Object.entries(
-                  hseIncidents.reduce((acc, incident) => {
-                    if (!acc[incident.severity]) acc[incident.severity] = [];
-                    acc[incident.severity].push(incident);
-                    return acc;
-                  }, {} as Record<string, typeof hseIncidents>)
-                ).map(([severity, incidents]) => (
+                {Object.entries(groupedHseIncidents).map(([severity, incidents]) => (
                   <>
-                    <TableRow key={`group-${severity}`} className="bg-muted/30">
-                      <TableCell colSpan={4} className="font-semibold text-xs py-2">
-                        {severity.toUpperCase()} Severity ({incidents.length})
-                      </TableCell>
-                    </TableRow>
+                    {isHseGrouped && severity !== 'All' && (
+                      <TableRow key={`group-${severity}`} className="bg-muted/30">
+                        <TableCell colSpan={4} className="font-semibold text-xs py-2">
+                          {severity.toUpperCase()} Severity ({incidents.length})
+                        </TableCell>
+                      </TableRow>
+                    )}
                     {incidents.map((incident, idx) => (
                       <TableRow key={`${severity}-${idx}`} className="text-xs hover:bg-accent/10 transition-colors">
                         <TableCell className="font-medium py-2">{incident.client}</TableCell>
@@ -75,9 +102,17 @@ export const PerformanceSection = () => {
       </Card>
 
       <Card className="p-3">
-        <div className="flex items-center gap-2 mb-2">
-          <Zap className="h-4 w-4 text-accent" />
-          <h2 className="text-base font-bold text-foreground">Generation Performance (MTD)</h2>
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-2">
+            <Zap className="h-4 w-4 text-accent" />
+            <h2 className="text-base font-bold text-foreground">Generation Performance (MTD)</h2>
+          </div>
+          <button
+            onClick={() => setIsGenerationGrouped(!isGenerationGrouped)}
+            className="text-xs px-3 py-1 rounded-md bg-accent text-accent-foreground hover:bg-accent/90 transition-colors"
+          >
+            {isGenerationGrouped ? 'Ungroup' : 'Group by Performance'}
+          </button>
         </div>
           <div className="overflow-x-auto">
             <Table>
@@ -89,19 +124,17 @@ export const PerformanceSection = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {Object.entries(
-                  generationData.reduce((acc, row) => {
-                    if (!acc[row.performanceCategory]) acc[row.performanceCategory] = [];
-                    acc[row.performanceCategory].push(row);
-                    return acc;
-                  }, {} as Record<string, typeof generationData>)
-                ).sort((a, b) => b[0].localeCompare(a[0])).map(([category, rows]) => (
+                {Object.entries(groupedGenerationData)
+                  .sort((a, b) => b[0].localeCompare(a[0]))
+                  .map(([category, rows]) => (
                   <>
-                    <TableRow key={`group-${category}`} className="bg-muted/30">
-                      <TableCell colSpan={3} className="font-semibold text-xs py-2">
-                        {category} ({rows.length})
-                      </TableCell>
-                    </TableRow>
+                    {isGenerationGrouped && category !== 'All' && (
+                      <TableRow key={`group-${category}`} className="bg-muted/30">
+                        <TableCell colSpan={3} className="font-semibold text-xs py-2">
+                          {category} ({rows.length})
+                        </TableCell>
+                      </TableRow>
+                    )}
                     {rows.map((row, idx) => (
                       <TableRow key={`${category}-${idx}`} className="text-xs hover:bg-accent/10 transition-colors">
                         <TableCell className="font-medium py-2">{row.client}</TableCell>
@@ -127,9 +160,17 @@ export const PerformanceSection = () => {
       </Card>
 
       <Card className="p-3">
-        <div className="flex items-center gap-2 mb-2">
-          <ClipboardCheck className="h-4 w-4 text-success" />
-          <h2 className="text-base font-bold text-foreground">Compliance Metrics</h2>
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-2">
+            <ClipboardCheck className="h-4 w-4 text-success" />
+            <h2 className="text-base font-bold text-foreground">Compliance Metrics</h2>
+          </div>
+          <button
+            onClick={() => setIsComplianceGrouped(!isComplianceGrouped)}
+            className="text-xs px-3 py-1 rounded-md bg-accent text-accent-foreground hover:bg-accent/90 transition-colors"
+          >
+            {isComplianceGrouped ? 'Ungroup' : 'Group by Compliance'}
+          </button>
         </div>
           <div className="overflow-x-auto">
             <Table>
@@ -143,19 +184,17 @@ export const PerformanceSection = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {Object.entries(
-                  complianceData.reduce((acc, row) => {
-                    if (!acc[row.complianceLevel]) acc[row.complianceLevel] = [];
-                    acc[row.complianceLevel].push(row);
-                    return acc;
-                  }, {} as Record<string, typeof complianceData>)
-                ).sort((a, b) => b[0].localeCompare(a[0])).map(([level, rows]) => (
+                {Object.entries(groupedComplianceData)
+                  .sort((a, b) => b[0].localeCompare(a[0]))
+                  .map(([level, rows]) => (
                   <>
-                    <TableRow key={`group-${level}`} className="bg-muted/30">
-                      <TableCell colSpan={5} className="font-semibold text-xs py-2">
-                        {level} ({rows.length})
-                      </TableCell>
-                    </TableRow>
+                    {isComplianceGrouped && level !== 'All' && (
+                      <TableRow key={`group-${level}`} className="bg-muted/30">
+                        <TableCell colSpan={5} className="font-semibold text-xs py-2">
+                          {level} ({rows.length})
+                        </TableCell>
+                      </TableRow>
+                    )}
                     {rows.map((row, idx) => (
                       <TableRow key={`${level}-${idx}`} className="text-xs hover:bg-accent/10 transition-colors">
                         <TableCell className="font-medium py-2">{row.client}</TableCell>

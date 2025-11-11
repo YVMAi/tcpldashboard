@@ -19,6 +19,7 @@ const engineeringData = [
 export const EngineeringSection = () => {
   const { currencyUnit } = useCurrency();
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
+  const [isGrouped, setIsGrouped] = useState(true);
 
   const sortedData = [...engineeringData].sort((a, b) => {
     if (!sortConfig) return 0;
@@ -39,11 +40,11 @@ export const EngineeringSection = () => {
   };
 
   // Group by mandate type
-  const groupedData = sortedData.reduce((acc, row) => {
+  const groupedData = isGrouped ? sortedData.reduce((acc, row) => {
     if (!acc[row.mandateType]) acc[row.mandateType] = [];
     acc[row.mandateType].push(row);
     return acc;
-  }, {} as Record<string, typeof engineeringData>);
+  }, {} as Record<string, typeof engineeringData>) : { 'All': sortedData };
   
   return (
     <ExpandableSection
@@ -57,7 +58,15 @@ export const EngineeringSection = () => {
       ]}
     >
       <div className="space-y-4">
-        <h3 className="text-sm font-semibold mb-3 text-foreground">Client Mandates Overview</h3>
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-semibold text-foreground">Client Mandates Overview</h3>
+          <button
+            onClick={() => setIsGrouped(!isGrouped)}
+            className="text-xs px-3 py-1 rounded-md bg-accent text-accent-foreground hover:bg-accent/90 transition-colors"
+          >
+            {isGrouped ? 'Ungroup' : 'Group by Type'}
+          </button>
+        </div>
         <div className="overflow-x-auto rounded-lg border border-border bg-card">
           <Table>
             <TableHeader>
@@ -90,11 +99,13 @@ export const EngineeringSection = () => {
             <TableBody>
               {Object.entries(groupedData).map(([mandateType, rows]) => (
                 <>
-                  <TableRow key={`group-${mandateType}`} className="bg-muted/30">
-                    <TableCell colSpan={7} className="font-semibold text-xs py-2">
-                      {mandateType} ({rows.length})
-                    </TableCell>
-                  </TableRow>
+                  {isGrouped && mandateType !== 'All' && (
+                    <TableRow key={`group-${mandateType}`} className="bg-muted/30">
+                      <TableCell colSpan={7} className="font-semibold text-xs py-2">
+                        {mandateType} ({rows.length})
+                      </TableCell>
+                    </TableRow>
+                  )}
                   {rows.map((row, idx) => {
                     const variance = ((row.actualRevenue - row.expectedRevenue) / row.expectedRevenue * 100);
                     return (
