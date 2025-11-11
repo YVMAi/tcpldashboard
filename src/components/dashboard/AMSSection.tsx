@@ -24,7 +24,6 @@ export const AMSSection = () => {
   const { currencyUnit } = useCurrency();
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
   const [isGrouped, setIsGrouped] = useState(false);
-  const [isManpowerGrouped, setIsManpowerGrouped] = useState(false);
   const [manpowerSortConfig, setManpowerSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
 
   const sortedData = [...amsData].sort((a, b) => {
@@ -74,7 +73,7 @@ export const AMSSection = () => {
     return acc;
   }, {} as Record<string, typeof amsData>) : { 'All': sortedData };
   
-  const groupedManpowerData = isManpowerGrouped ? sortedManpowerData.reduce((acc, row) => {
+  const groupedManpowerData = isGrouped ? sortedManpowerData.reduce((acc, row) => {
     if (!acc[row.type]) acc[row.type] = [];
     acc[row.type].push(row);
     return acc;
@@ -180,14 +179,8 @@ export const AMSSection = () => {
         </div>
 
         <div>
-          <div className="flex items-center justify-between mb-2">
+          <div className="mb-2">
             <h3 className="text-xs font-semibold text-foreground">Manpower Breakdown</h3>
-            <button
-              onClick={() => setIsManpowerGrouped(!isManpowerGrouped)}
-              className="text-xs px-2.5 py-1.5 rounded-md bg-accent text-accent-foreground hover:bg-accent/90 transition-colors shadow-sm touch-manipulation"
-            >
-              {isManpowerGrouped ? 'Ungroup' : 'Group by Type'}
-            </button>
           </div>
           <div className="overflow-x-auto -mx-3 px-3 md:mx-0 md:px-0">
             <Table className="min-w-[700px]">
@@ -224,7 +217,7 @@ export const AMSSection = () => {
               <TableBody>
                 {Object.entries(groupedManpowerData).map(([type, rows]) => (
                   <>
-                    {isManpowerGrouped && type !== 'All' && (
+                    {isGrouped && type !== 'All' && (
                       <TableRow key={`manpower-group-${type}`} className="bg-muted/30">
                         <TableCell colSpan={6} className="font-semibold text-xs py-2">
                           {type} ({rows.length})
