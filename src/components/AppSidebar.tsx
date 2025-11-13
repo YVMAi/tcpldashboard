@@ -1,4 +1,4 @@
-import { LayoutDashboard, TrendingUp, Wrench, DollarSign, Users, PanelLeftClose, PanelLeft } from "lucide-react";
+import { LayoutDashboard, TrendingUp, Wrench, DollarSign, Users, PanelLeftClose, PanelLeft, Leaf } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
   Sidebar,
@@ -27,23 +27,21 @@ export function AppSidebar() {
   const { open, toggleSidebar } = useSidebar();
 
   return (
-    <Sidebar className="border-r border-border bg-white">
-      <SidebarHeader className="border-b border-border px-4 py-4">
+    <Sidebar className="border-r border-border bg-white" collapsible="icon">
+      <SidebarHeader className="border-b border-border px-4 py-4 flex items-center justify-center">
         {open ? (
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1">
-              <span className="text-xl font-semibold text-foreground">TCPL CRM</span>
-            </div>
+          <div className="flex items-center gap-1">
+            <span className="text-xl font-semibold text-foreground">TCPL CRM</span>
           </div>
         ) : (
           <div className="flex justify-center">
-            <span className="text-sm font-bold text-foreground">TC</span>
+            <Leaf className="h-6 w-6 text-[rgb(0,168,107)]" />
           </div>
         )}
       </SidebarHeader>
 
       <SidebarContent className="px-2 py-4">
-        <div className="px-2 pb-3 mb-2">
+        <div className={open ? "px-2 pb-3 mb-2" : "flex justify-center pb-3 mb-2 border-b border-border"}>
           <Button
             variant="ghost"
             size="icon"
@@ -62,12 +60,18 @@ export function AppSidebar() {
             <SidebarMenu className="space-y-1">
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild tooltip={item.title}>
                     <NavLink 
                       to={item.url} 
                       end
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-md hover:bg-muted/50 transition-colors text-sm text-foreground/80"
-                      activeClassName="bg-[rgb(0,168,107)]/10 text-[rgb(0,168,107)] font-medium border-r-2 border-[rgb(0,168,107)]"
+                      className={open 
+                        ? "flex items-center gap-3 px-3 py-2.5 rounded-md hover:bg-muted/50 transition-colors text-sm text-foreground/80"
+                        : "flex items-center justify-center w-full py-2.5 rounded-md hover:bg-muted/50 transition-colors text-foreground/80"
+                      }
+                      activeClassName={open
+                        ? "bg-[rgb(0,168,107)]/10 text-[rgb(0,168,107)] font-medium border-r-2 border-[rgb(0,168,107)]"
+                        : "bg-[rgb(0,168,107)]/10 text-[rgb(0,168,107)] font-medium"
+                      }
                     >
                       <item.icon className="h-4 w-4 flex-shrink-0" />
                       {open && <span>{item.title}</span>}
