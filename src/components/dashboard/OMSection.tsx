@@ -1,5 +1,5 @@
 import { ExpandableSection } from "./ExpandableSection";
-import { Ruler } from "lucide-react";
+import { Settings } from "lucide-react";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { formatCurrency } from "@/lib/currency";
 import {
@@ -14,77 +14,87 @@ import { Badge } from "@/components/ui/badge";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 const revenueData = [
-  { month: "Apr", revenue: 0.9 },
-  { month: "May", revenue: 1.0 },
-  { month: "Jun", revenue: 1.1 },
-  { month: "Jul", revenue: 1.2 },
-  { month: "Aug", revenue: 1.0 },
-  { month: "Sep", revenue: 1.3 },
-  { month: "Oct", revenue: 1.4 },
-  { month: "Nov", revenue: 1.3 },
-  { month: "Dec", revenue: 1.5 },
-  { month: "Jan", revenue: 1.6 },
-  { month: "Feb", revenue: 1.7 },
-  { month: "Mar", revenue: 1.5 },
+  { month: "Apr", revenue: 2.8 },
+  { month: "May", revenue: 3.1 },
+  { month: "Jun", revenue: 3.3 },
+  { month: "Jul", revenue: 3.6 },
+  { month: "Aug", revenue: 3.4 },
+  { month: "Sep", revenue: 3.8 },
+  { month: "Oct", revenue: 4.2 },
+  { month: "Nov", revenue: 4.0 },
+  { month: "Dec", revenue: 4.3 },
+  { month: "Jan", revenue: 4.5 },
+  { month: "Feb", revenue: 4.7 },
+  { month: "Mar", revenue: 4.9 },
 ];
 
-const engineeringData = [
+const contractData = [
   {
-    client: "Sterling & Wilson",
-    type: "Engineering",
+    client: "ReNew Power",
+    capacity: "180 MW",
+    plants: 4,
+    manpower: 15,
+    expectedRevenue: 85.5,
+    actualRevenue: 88.2,
+    variance: 3.2,
     status: "Active",
-    manpower: 8,
-    expected: 3.2,
-    actual: 3.0,
   },
   {
-    client: "Vikram Solar",
-    type: "Engineering",
+    client: "Tata Power",
+    capacity: "220 MW",
+    plants: 6,
+    manpower: 22,
+    expectedRevenue: 105.8,
+    actualRevenue: 102.4,
+    variance: -3.2,
     status: "Active",
-    manpower: 6,
-    expected: 2.4,
-    actual: 2.5,
   },
   {
-    client: "Waaree Energies",
-    type: "Engineering",
-    status: "Completed",
-    manpower: 5,
-    expected: 1.8,
-    actual: 1.9,
+    client: "Adani Green",
+    capacity: "150 MW",
+    plants: 3,
+    manpower: 12,
+    expectedRevenue: 72.3,
+    actualRevenue: 75.6,
+    variance: 4.6,
+    status: "Active",
   },
   {
-    client: "First Solar",
-    type: "Engineering",
+    client: "Azure Power",
+    capacity: "140 MW",
+    plants: 5,
+    manpower: 18,
+    expectedRevenue: 68.9,
+    actualRevenue: 67.2,
+    variance: -2.5,
     status: "Active",
-    manpower: 7,
-    expected: 2.8,
-    actual: 2.6,
   },
   {
-    client: "Canadian Solar",
-    type: "Engineering",
+    client: "Avaada Energy",
+    capacity: "260 MW",
+    plants: 7,
+    manpower: 28,
+    expectedRevenue: 128.7,
+    actualRevenue: 131.5,
+    variance: 2.2,
     status: "Active",
-    manpower: 6,
-    expected: 2.2,
-    actual: 2.4,
   },
 ];
 
-export const EngineeringSection = () => {
+export const OMSection = () => {
   const { currencyUnit } = useCurrency();
 
   return (
     <ExpandableSection
-      title="Engineering Advisory"
-      icon={<Ruler className="h-5 w-5" />}
+      title="O&M Operations"
+      icon={<Settings className="h-5 w-5" />}
       defaultExpanded={true}
       metrics={[
-        { label: "Total Mandates", value: "22" },
-        { label: "Completed", value: "8" },
-        { label: "Running", value: "14" },
-        { label: "Revenue", value: formatCurrency(12.4, currencyUnit) },
-        { label: "Manpower", value: "38" },
+        { label: "No. of Plants", value: "25" },
+        { label: "Capacity", value: "950 MW" },
+        { label: "Expected Revenue", value: formatCurrency(461.2, currencyUnit) },
+        { label: "Actual Revenue", value: formatCurrency(464.9, currencyUnit) },
+        { label: "Manpower", value: "95" },
       ]}
     >
       <div className="space-y-4">
@@ -125,46 +135,43 @@ export const EngineeringSection = () => {
           </ResponsiveContainer>
         </div>
 
-        {/* Mandate Performance Table */}
+        {/* Contract Performance Table */}
         <div className="rounded-lg border border-[#E5E7EB] overflow-hidden bg-white">
           <Table>
             <TableHeader>
               <TableRow className="bg-[#F9FAFB] hover:bg-[#F9FAFB]">
                 <TableHead className="font-semibold text-[#001F3F]">Client Name</TableHead>
-                <TableHead className="font-semibold text-[#001F3F]">Mandate Type</TableHead>
-                <TableHead className="font-semibold text-[#001F3F]">Status</TableHead>
+                <TableHead className="font-semibold text-[#001F3F]">Capacity</TableHead>
+                <TableHead className="font-semibold text-[#001F3F]">No. of Plants</TableHead>
                 <TableHead className="font-semibold text-[#001F3F]">Manpower</TableHead>
                 <TableHead className="font-semibold text-[#001F3F] text-right">Expected Revenue</TableHead>
                 <TableHead className="font-semibold text-[#001F3F] text-right">Actual Revenue</TableHead>
+                <TableHead className="font-semibold text-[#001F3F] text-right">Variance %</TableHead>
+                <TableHead className="font-semibold text-[#001F3F]">Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {engineeringData.map((item, index) => (
+              {contractData.map((contract, index) => (
                 <TableRow key={index} className="hover:bg-[#F0FDF4]">
-                  <TableCell className="font-medium text-[#001F3F]">{item.client}</TableCell>
-                  <TableCell>
-                    <Badge variant="outline" className="bg-[#E0E7FF] text-[#6366F1] border-[#6366F1]">
-                      {item.type}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Badge 
-                      variant="outline" 
-                      className={
-                        item.status === "Active"
-                          ? "bg-[#DCFCE7] text-[rgb(0,168,107)] border-[rgb(0,168,107)]"
-                          : "bg-[#F3F4F6] text-[#6B7280] border-[#9CA3AF]"
-                      }
-                    >
-                      {item.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-[#444444]">{item.manpower}</TableCell>
+                  <TableCell className="font-medium text-[#001F3F]">{contract.client}</TableCell>
+                  <TableCell className="text-[#444444]">{contract.capacity}</TableCell>
+                  <TableCell className="text-[#444444]">{contract.plants}</TableCell>
+                  <TableCell className="text-[#444444]">{contract.manpower}</TableCell>
                   <TableCell className="text-right text-[#001F3F] font-semibold">
-                    {formatCurrency(item.expected, currencyUnit)}
+                    {formatCurrency(contract.expectedRevenue, currencyUnit)}
                   </TableCell>
                   <TableCell className="text-right text-[#001F3F] font-semibold">
-                    {formatCurrency(item.actual, currencyUnit)}
+                    {formatCurrency(contract.actualRevenue, currencyUnit)}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <span className={contract.variance >= 0 ? "text-[rgb(0,168,107)] font-semibold" : "text-[#E63946] font-semibold"}>
+                      {contract.variance >= 0 ? "+" : ""}{contract.variance}%
+                    </span>
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant="outline" className="bg-[#DCFCE7] text-[rgb(0,168,107)] border-[rgb(0,168,107)]">
+                      {contract.status}
+                    </Badge>
                   </TableCell>
                 </TableRow>
               ))}

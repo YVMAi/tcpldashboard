@@ -1,7 +1,9 @@
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { SummaryCards } from "@/components/dashboard/SummaryCards";
 import { AMSSection } from "@/components/dashboard/AMSSection";
+import { OMSection } from "@/components/dashboard/OMSection";
 import { EngineeringSection } from "@/components/dashboard/EngineeringSection";
+import { FinancialAdvisorySection } from "@/components/dashboard/FinancialAdvisorySection";
 import { SaaSSection } from "@/components/dashboard/SaaSSection";
 import { PerformanceSection } from "@/components/dashboard/PerformanceSection";
 
@@ -14,7 +16,9 @@ const Index = () => {
         
         <div className="space-y-3">
           <AMSSection />
+          <OMSection />
           <EngineeringSection />
+          <FinancialAdvisorySection />
           <SaaSSection />
         </div>
 
