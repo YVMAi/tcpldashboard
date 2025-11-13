@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 
 interface DashboardLayoutProps {
@@ -11,13 +11,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     <SidebarProvider defaultOpen>
       <div className="min-h-screen flex w-full bg-background">
         <AppSidebar />
-        <main className="flex-1">
-          <div className="border-b border-border bg-muted/30 px-4 py-2">
-            <SidebarTrigger />
-          </div>
-          <div className="p-2 md:p-4 lg:p-6">
-            {children}
-          </div>
+        <main className="flex-1 p-2 md:p-4 lg:p-6">
+          {children}
         </main>
       </div>
     </SidebarProvider>

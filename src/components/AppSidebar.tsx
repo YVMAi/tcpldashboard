@@ -29,18 +29,26 @@ export function AppSidebar() {
   return (
     <Sidebar className="border-r border-border bg-white">
       <SidebarHeader className="border-b border-border px-4 py-4">
-        <div className="flex items-center justify-between">
-          {open && (
+        {open ? (
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-1">
-              <span className="text-xl font-semibold text-foreground">Tru</span>
-              <span className="text-xl font-semibold text-[rgb(0,168,107)]">Green</span>
+              <span className="text-xl font-semibold text-foreground">TCPL CRM</span>
             </div>
-          )}
+          </div>
+        ) : (
+          <div className="flex justify-center">
+            <span className="text-sm font-bold text-foreground">TC</span>
+          </div>
+        )}
+      </SidebarHeader>
+
+      <SidebarContent className="px-2 py-4">
+        <div className="px-2 pb-3 mb-2">
           <Button
             variant="ghost"
             size="icon"
             onClick={toggleSidebar}
-            className="h-8 w-8 ml-auto"
+            className="h-8 w-8 hover:bg-muted"
           >
             {open ? (
               <PanelLeftClose className="h-4 w-4" />
@@ -49,9 +57,6 @@ export function AppSidebar() {
             )}
           </Button>
         </div>
-      </SidebarHeader>
-
-      <SidebarContent className="px-2 py-4">
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu className="space-y-1">
