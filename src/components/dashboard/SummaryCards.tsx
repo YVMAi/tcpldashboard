@@ -13,8 +13,9 @@ export const SummaryCards = () => {
         primaryValue="1,250 MW"
         primarySubtext="Under Management"
         secondaryMetrics={[
-          { label: "Expected Revenue", value: formatCurrency(45.6, currencyUnit) },
-          { label: "Actual Revenue", value: formatCurrency(42.3, currencyUnit) }
+          { label: "No. of Plants", value: "28" },
+          { label: "Revenue YTD", value: formatCurrency(42.3, currencyUnit) },
+          { label: "Receivables", value: formatCurrency(8.5, currencyUnit) }
         ]}
         variance={10.8}
         icon={<Building2 className="h-5 w-5" />}
@@ -25,8 +26,8 @@ export const SummaryCards = () => {
         primaryValue="950 MW"
         primarySubtext="Across 35 Plants"
         secondaryMetrics={[
-          { label: "Manpower", value: "120" },
-          { label: "Revenue", value: formatCurrency(38.7, currencyUnit) }
+          { label: "Revenue YTD", value: formatCurrency(38.7, currencyUnit) },
+          { label: "Receivables", value: formatCurrency(6.2, currencyUnit) }
         ]}
         variance={8.2}
         icon={<Settings className="h-5 w-5" />}
@@ -37,7 +38,8 @@ export const SummaryCards = () => {
         primaryValue="22 Mandates"
         primarySubtext="8 Completed | 14 Running"
         secondaryMetrics={[
-          { label: "Revenue", value: formatCurrency(12.4, currencyUnit) }
+          { label: "Revenue YTD", value: formatCurrency(12.4, currencyUnit) },
+          { label: "Receivables", value: formatCurrency(3.1, currencyUnit) }
         ]}
         variance={-5.2}
         icon={<Ruler className="h-5 w-5" />}
@@ -48,7 +50,8 @@ export const SummaryCards = () => {
         primaryValue="6 Deals"
         primarySubtext={`${formatCurrency(8.8, currencyUnit)} Total Value`}
         secondaryMetrics={[
-          { label: "Actual Billing", value: formatCurrency(7.9, currencyUnit) }
+          { label: "Revenue YTD", value: formatCurrency(7.9, currencyUnit) },
+          { label: "Receivables", value: formatCurrency(1.8, currencyUnit) }
         ]}
         variance={3.4}
         icon={<Briefcase className="h-5 w-5" />}
@@ -59,7 +62,8 @@ export const SummaryCards = () => {
         primaryValue="3.2 GW"
         primarySubtext="142 Clients"
         secondaryMetrics={[
-          { label: "Revenue", value: formatCurrency(9.7, currencyUnit) }
+          { label: "Revenue YTD", value: formatCurrency(9.7, currencyUnit) },
+          { label: "Receivables", value: formatCurrency(2.3, currencyUnit) }
         ]}
         variance={18.7}
         icon={<Cloud className="h-5 w-5" />}
