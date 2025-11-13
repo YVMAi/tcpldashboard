@@ -22,46 +22,46 @@ export const MetricCard = ({
   const isPositive = variance > 0;
   
   return (
-    <Card className="p-4 hover:shadow-lg transition-all duration-200 hover:-translate-y-1 bg-[#F4F5F7] rounded-xl border-0">
-      <div className="flex items-start justify-between mb-3">
-        <h3 className="text-sm font-semibold text-[#001F3F]">{title}</h3>
-        <div className="text-[#001F3F] opacity-70">
+    <Card className="p-3 hover:shadow-md transition-all duration-200 bg-white rounded-lg border border-[#E5E7EB]">
+      <div className="flex items-start justify-between mb-2">
+        <h3 className="text-[11px] font-semibold text-[#001F3F] uppercase tracking-wide">{title}</h3>
+        <div className="text-[#001F3F] opacity-60">
           {icon}
         </div>
       </div>
       
-      <div className="space-y-3">
+      <div className="space-y-2">
         {/* Primary Metric */}
         <div>
-          <p className="text-3xl font-bold text-[#001F3F] leading-tight">
+          <p className="text-2xl font-bold text-[#001F3F] leading-none">
             {primaryValue}
           </p>
-          <p className="text-xs text-[#444444] mt-1">
+          <p className="text-[10px] text-[#444444] mt-0.5">
             {primarySubtext}
           </p>
         </div>
 
         {/* Secondary Metrics */}
-        <div className="space-y-1.5">
+        <div className="space-y-0.5">
           {secondaryMetrics.map((metric, index) => (
             <div key={index} className="flex justify-between items-center">
-              <span className="text-xs text-[#444444]">{metric.label}:</span>
-              <span className="text-sm font-semibold text-[#001F3F]">{metric.value}</span>
+              <span className="text-[10px] text-[#444444]">{metric.label}:</span>
+              <span className="text-xs font-semibold text-[#001F3F]">{metric.value}</span>
             </div>
           ))}
         </div>
 
         {/* YoY Comparison */}
         <div className={cn(
-          "flex items-center gap-1.5 pt-2 border-t border-[#001F3F]/10",
+          "flex items-center gap-1 pt-1.5 border-t border-[#E5E7EB]",
           isPositive ? "text-[rgb(0,168,107)]" : "text-[#E63946]"
         )}>
           {isPositive ? (
-            <TrendingUp className="h-3.5 w-3.5" />
+            <TrendingUp className="h-3 w-3" />
           ) : (
-            <TrendingDown className="h-3.5 w-3.5" />
+            <TrendingDown className="h-3 w-3" />
           )}
-          <span className="text-xs font-medium">
+          <span className="text-[10px] font-medium">
             {Math.abs(variance)}% {isPositive ? 'higher' : 'lower'} than FY25
           </span>
         </div>

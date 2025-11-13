@@ -7,7 +7,7 @@ export const SummaryCards = () => {
   const { currencyUnit } = useCurrency();
   
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3 mb-3">
       <MetricCard
         title="Asset Management"
         primaryValue="1,250 MW"
