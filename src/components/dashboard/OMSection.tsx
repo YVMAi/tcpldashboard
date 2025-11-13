@@ -34,9 +34,10 @@ const contractData = [
     capacity: "180 MW",
     plants: 4,
     manpower: 15,
-    expectedRevenue: 85.5,
-    actualRevenue: 88.2,
-    variance: 3.2,
+    annualExpectedBilling: 85.5,
+    invoiceRaised: 81.2,
+    outstanding: 4.3,
+    dueInDays: 18,
     status: "Active",
   },
   {
@@ -44,9 +45,10 @@ const contractData = [
     capacity: "220 MW",
     plants: 6,
     manpower: 22,
-    expectedRevenue: 105.8,
-    actualRevenue: 102.4,
-    variance: -3.2,
+    annualExpectedBilling: 105.8,
+    invoiceRaised: 98.4,
+    outstanding: 7.4,
+    dueInDays: -8,
     status: "Active",
   },
   {
@@ -54,9 +56,10 @@ const contractData = [
     capacity: "150 MW",
     plants: 3,
     manpower: 12,
-    expectedRevenue: 72.3,
-    actualRevenue: 75.6,
-    variance: 4.6,
+    annualExpectedBilling: 72.3,
+    invoiceRaised: 68.9,
+    outstanding: 3.4,
+    dueInDays: 12,
     status: "Active",
   },
   {
@@ -64,9 +67,10 @@ const contractData = [
     capacity: "140 MW",
     plants: 5,
     manpower: 18,
-    expectedRevenue: 68.9,
-    actualRevenue: 67.2,
-    variance: -2.5,
+    annualExpectedBilling: 68.9,
+    invoiceRaised: 64.2,
+    outstanding: 4.7,
+    dueInDays: -15,
     status: "Active",
   },
   {
@@ -74,9 +78,10 @@ const contractData = [
     capacity: "260 MW",
     plants: 7,
     manpower: 28,
-    expectedRevenue: 128.7,
-    actualRevenue: 131.5,
-    variance: 2.2,
+    annualExpectedBilling: 128.7,
+    invoiceRaised: 122.5,
+    outstanding: 6.2,
+    dueInDays: 25,
     status: "Active",
   },
 ];
@@ -144,9 +149,10 @@ export const OMSection = () => {
                 <TableHead className="font-semibold text-[#001F3F]">Capacity</TableHead>
                 <TableHead className="font-semibold text-[#001F3F]">No. of Plants</TableHead>
                 <TableHead className="font-semibold text-[#001F3F]">Manpower</TableHead>
-                <TableHead className="font-semibold text-[#001F3F] text-right">Expected Revenue</TableHead>
-                <TableHead className="font-semibold text-[#001F3F] text-right">Actual Revenue</TableHead>
-                <TableHead className="font-semibold text-[#001F3F] text-right">Variance %</TableHead>
+                <TableHead className="font-semibold text-[#001F3F] text-right">Annual Expected Billing {formatCurrency(1, currencyUnit).replace(/[\d.]/g, '')}</TableHead>
+                <TableHead className="font-semibold text-[#001F3F] text-right">Invoice Raised till Date {formatCurrency(1, currencyUnit).replace(/[\d.]/g, '')}</TableHead>
+                <TableHead className="font-semibold text-[#001F3F] text-right">Outstanding {formatCurrency(1, currencyUnit).replace(/[\d.]/g, '')}</TableHead>
+                <TableHead className="font-semibold text-[#001F3F] text-right">Due in Days</TableHead>
                 <TableHead className="font-semibold text-[#001F3F]">Status</TableHead>
               </TableRow>
             </TableHeader>
@@ -158,15 +164,16 @@ export const OMSection = () => {
                   <TableCell className="text-[#444444]">{contract.plants}</TableCell>
                   <TableCell className="text-[#444444]">{contract.manpower}</TableCell>
                   <TableCell className="text-right text-[#001F3F] font-semibold">
-                    {formatCurrency(contract.expectedRevenue, currencyUnit)}
+                    {formatCurrency(contract.annualExpectedBilling, currencyUnit)}
                   </TableCell>
                   <TableCell className="text-right text-[#001F3F] font-semibold">
-                    {formatCurrency(contract.actualRevenue, currencyUnit)}
+                    {formatCurrency(contract.invoiceRaised, currencyUnit)}
                   </TableCell>
-                  <TableCell className="text-right">
-                    <span className={contract.variance >= 0 ? "text-[rgb(0,168,107)] font-semibold" : "text-[#E63946] font-semibold"}>
-                      {contract.variance >= 0 ? "+" : ""}{contract.variance}%
-                    </span>
+                  <TableCell className="text-right text-[#001F3F] font-semibold">
+                    {formatCurrency(contract.outstanding, currencyUnit)}
+                  </TableCell>
+                  <TableCell className={`text-right font-semibold ${contract.dueInDays >= 0 ? 'text-[rgb(0,168,107)]' : 'text-[#E63946]'}`}>
+                    {contract.dueInDays}
                   </TableCell>
                   <TableCell>
                     <Badge variant="outline" className="bg-[#DCFCE7] text-[rgb(0,168,107)] border-[rgb(0,168,107)]">

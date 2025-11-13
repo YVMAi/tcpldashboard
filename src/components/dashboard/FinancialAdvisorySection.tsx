@@ -35,8 +35,10 @@ const mandateData = [
     dealValue: 1.8,
     status: "Active",
     manpower: 3,
-    expectedRevenue: 1.8,
-    actualRevenue: 1.9,
+    annualExpectedBilling: 1.8,
+    invoiceRaised: 1.7,
+    outstanding: 0.1,
+    dueInDays: 12,
   },
   {
     client: "Fourth Partner Energy",
@@ -44,8 +46,10 @@ const mandateData = [
     dealValue: 2.2,
     status: "Active",
     manpower: 4,
-    expectedRevenue: 2.2,
-    actualRevenue: 2.1,
+    annualExpectedBilling: 2.2,
+    invoiceRaised: 2.0,
+    outstanding: 0.2,
+    dueInDays: -5,
   },
   {
     client: "Cleantech Solar",
@@ -53,8 +57,10 @@ const mandateData = [
     dealValue: 1.5,
     status: "Completed",
     manpower: 2,
-    expectedRevenue: 1.5,
-    actualRevenue: 1.6,
+    annualExpectedBilling: 1.5,
+    invoiceRaised: 1.5,
+    outstanding: 0.0,
+    dueInDays: 30,
   },
   {
     client: "Oriana Power",
@@ -62,8 +68,10 @@ const mandateData = [
     dealValue: 1.8,
     status: "Active",
     manpower: 3,
-    expectedRevenue: 1.8,
-    actualRevenue: 1.7,
+    annualExpectedBilling: 1.8,
+    invoiceRaised: 1.6,
+    outstanding: 0.2,
+    dueInDays: 8,
   },
   {
     client: "Ampin Energy",
@@ -71,8 +79,10 @@ const mandateData = [
     dealValue: 1.5,
     status: "Active",
     manpower: 2,
-    expectedRevenue: 1.5,
-    actualRevenue: 1.6,
+    annualExpectedBilling: 1.5,
+    invoiceRaised: 1.4,
+    outstanding: 0.1,
+    dueInDays: -10,
   },
 ];
 
@@ -140,8 +150,10 @@ export const FinancialAdvisorySection = () => {
                 <TableHead className="font-semibold text-[#001F3F] text-right">Deal Value</TableHead>
                 <TableHead className="font-semibold text-[#001F3F]">Status</TableHead>
                 <TableHead className="font-semibold text-[#001F3F]">Manpower</TableHead>
-                <TableHead className="font-semibold text-[#001F3F] text-right">Expected Revenue</TableHead>
-                <TableHead className="font-semibold text-[#001F3F] text-right">Actual Revenue</TableHead>
+                <TableHead className="font-semibold text-[#001F3F] text-right">Annual Expected Billing {formatCurrency(1, currencyUnit).replace(/[\d.]/g, '')}</TableHead>
+                <TableHead className="font-semibold text-[#001F3F] text-right">Invoice Raised till Date {formatCurrency(1, currencyUnit).replace(/[\d.]/g, '')}</TableHead>
+                <TableHead className="font-semibold text-[#001F3F] text-right">Outstanding {formatCurrency(1, currencyUnit).replace(/[\d.]/g, '')}</TableHead>
+                <TableHead className="font-semibold text-[#001F3F] text-right">Due in Days</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -166,10 +178,16 @@ export const FinancialAdvisorySection = () => {
                   </TableCell>
                   <TableCell className="text-[#444444]">{mandate.manpower}</TableCell>
                   <TableCell className="text-right text-[#001F3F] font-semibold">
-                    {formatCurrency(mandate.expectedRevenue, currencyUnit)}
+                    {formatCurrency(mandate.annualExpectedBilling, currencyUnit)}
                   </TableCell>
                   <TableCell className="text-right text-[#001F3F] font-semibold">
-                    {formatCurrency(mandate.actualRevenue, currencyUnit)}
+                    {formatCurrency(mandate.invoiceRaised, currencyUnit)}
+                  </TableCell>
+                  <TableCell className="text-right text-[#001F3F] font-semibold">
+                    {formatCurrency(mandate.outstanding, currencyUnit)}
+                  </TableCell>
+                  <TableCell className={`text-right font-semibold ${mandate.dueInDays >= 0 ? 'text-[rgb(0,168,107)]' : 'text-[#E63946]'}`}>
+                    {mandate.dueInDays}
                   </TableCell>
                 </TableRow>
               ))}

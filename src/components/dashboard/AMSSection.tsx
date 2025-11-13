@@ -34,9 +34,10 @@ const contractData = [
     capacity: "320 MW",
     plants: 8,
     manpower: 28,
-    expectedRevenue: 152.4,
-    actualRevenue: 158.7,
-    variance: 4.1,
+    annualExpectedBilling: 152.4,
+    invoiceRaised: 145.2,
+    outstanding: 7.2,
+    dueInDays: 15,
     status: "Active",
   },
   {
@@ -44,9 +45,10 @@ const contractData = [
     capacity: "280 MW",
     plants: 7,
     manpower: 24,
-    expectedRevenue: 134.2,
-    actualRevenue: 130.8,
-    variance: -2.5,
+    annualExpectedBilling: 134.2,
+    invoiceRaised: 128.5,
+    outstanding: 5.7,
+    dueInDays: -5,
     status: "Active",
   },
   {
@@ -54,9 +56,10 @@ const contractData = [
     capacity: "210 MW",
     plants: 5,
     manpower: 18,
-    expectedRevenue: 98.5,
-    actualRevenue: 102.3,
-    variance: 3.9,
+    annualExpectedBilling: 98.5,
+    invoiceRaised: 92.3,
+    outstanding: 6.2,
+    dueInDays: 8,
     status: "Active",
   },
   {
@@ -64,9 +67,10 @@ const contractData = [
     capacity: "180 MW",
     plants: 4,
     manpower: 16,
-    expectedRevenue: 86.7,
-    actualRevenue: 84.2,
-    variance: -2.9,
+    annualExpectedBilling: 86.7,
+    invoiceRaised: 80.1,
+    outstanding: 6.6,
+    dueInDays: -12,
     status: "Active",
   },
   {
@@ -74,9 +78,10 @@ const contractData = [
     capacity: "260 MW",
     plants: 7,
     manpower: 22,
-    expectedRevenue: 124.8,
-    actualRevenue: 129.3,
-    variance: 3.6,
+    annualExpectedBilling: 124.8,
+    invoiceRaised: 118.6,
+    outstanding: 6.2,
+    dueInDays: 22,
     status: "Active",
   },
 ];
@@ -144,9 +149,10 @@ export const AMSSection = () => {
                 <TableHead className="font-semibold text-[#001F3F]">Capacity</TableHead>
                 <TableHead className="font-semibold text-[#001F3F]">No. of Plants</TableHead>
                 <TableHead className="font-semibold text-[#001F3F]">Manpower</TableHead>
-                <TableHead className="font-semibold text-[#001F3F] text-right">Expected Revenue</TableHead>
-                <TableHead className="font-semibold text-[#001F3F] text-right">Actual Revenue</TableHead>
-                <TableHead className="font-semibold text-[#001F3F] text-right">Variance %</TableHead>
+                <TableHead className="font-semibold text-[#001F3F] text-right">Annual Expected Billing {formatCurrency(1, currencyUnit).replace(/[\d.]/g, '')}</TableHead>
+                <TableHead className="font-semibold text-[#001F3F] text-right">Invoice Raised till Date {formatCurrency(1, currencyUnit).replace(/[\d.]/g, '')}</TableHead>
+                <TableHead className="font-semibold text-[#001F3F] text-right">Outstanding {formatCurrency(1, currencyUnit).replace(/[\d.]/g, '')}</TableHead>
+                <TableHead className="font-semibold text-[#001F3F] text-right">Due in Days</TableHead>
                 <TableHead className="font-semibold text-[#001F3F]">Status</TableHead>
               </TableRow>
             </TableHeader>
@@ -158,15 +164,16 @@ export const AMSSection = () => {
                   <TableCell className="text-[#444444]">{contract.plants}</TableCell>
                   <TableCell className="text-[#444444]">{contract.manpower}</TableCell>
                   <TableCell className="text-right text-[#001F3F] font-semibold">
-                    {formatCurrency(contract.expectedRevenue, currencyUnit)}
+                    {formatCurrency(contract.annualExpectedBilling, currencyUnit)}
                   </TableCell>
                   <TableCell className="text-right text-[#001F3F] font-semibold">
-                    {formatCurrency(contract.actualRevenue, currencyUnit)}
+                    {formatCurrency(contract.invoiceRaised, currencyUnit)}
                   </TableCell>
-                  <TableCell className="text-right">
-                    <span className={contract.variance >= 0 ? "text-[rgb(0,168,107)] font-semibold" : "text-[#E63946] font-semibold"}>
-                      {contract.variance >= 0 ? "+" : ""}{contract.variance}%
-                    </span>
+                  <TableCell className="text-right text-[#001F3F] font-semibold">
+                    {formatCurrency(contract.outstanding, currencyUnit)}
+                  </TableCell>
+                  <TableCell className={`text-right font-semibold ${contract.dueInDays >= 0 ? 'text-[rgb(0,168,107)]' : 'text-[#E63946]'}`}>
+                    {contract.dueInDays}
                   </TableCell>
                   <TableCell>
                     <Badge variant="outline" className="bg-[#DCFCE7] text-[rgb(0,168,107)] border-[rgb(0,168,107)]">

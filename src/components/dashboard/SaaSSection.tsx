@@ -28,13 +28,13 @@ const revenueData = [
 ];
 
 const saasProducts = [
-  { product: "TruGreen Core", amsGWp: 450, amsClients: "Client A, B, C", saasGWp: 520, saasClients: "Client D, E", expected: 0.45, actual: 0.52 },
-  { product: "Assure", amsGWp: 380, amsClients: "Client F, G", saasGWp: 420, saasClients: "Client H", expected: 0.38, actual: 0.35 },
-  { product: "Nexus", amsGWp: 520, amsClients: "Client I, J, K", saasGWp: 580, saasClients: "Client L, M", expected: 0.52, actual: 0.58 },
-  { product: "Flow", amsGWp: 280, amsClients: "Client N", saasGWp: 310, saasClients: "Client O, P", expected: 0.28, actual: 0.31 },
-  { product: "Flow Lite", amsGWp: 220, amsClients: "Client Q, R", saasGWp: 260, saasClients: "Client S", expected: 0.22, actual: 0.24 },
-  { product: "Pulse", amsGWp: 310, amsClients: "Client T", saasGWp: 340, saasClients: "Client U, V", expected: 0.31, actual: 0.34 },
-  { product: "Horizon", amsGWp: 190, amsClients: "Client W, X", saasGWp: 220, saasClients: "Client Y", expected: 0.19, actual: 0.21 },
+  { product: "TruGreen Core", amsGWp: 450, amsClients: "Client A, B, C", saasGWp: 520, saasClients: "Client D, E", annualExpectedBilling: 0.45, invoiceRaised: 0.43, outstanding: 0.02, dueInDays: 15 },
+  { product: "Assure", amsGWp: 380, amsClients: "Client F, G", saasGWp: 420, saasClients: "Client H", annualExpectedBilling: 0.38, invoiceRaised: 0.35, outstanding: 0.03, dueInDays: -7 },
+  { product: "Nexus", amsGWp: 520, amsClients: "Client I, J, K", saasGWp: 580, saasClients: "Client L, M", annualExpectedBilling: 0.52, invoiceRaised: 0.50, outstanding: 0.02, dueInDays: 20 },
+  { product: "Flow", amsGWp: 280, amsClients: "Client N", saasGWp: 310, saasClients: "Client O, P", annualExpectedBilling: 0.28, invoiceRaised: 0.27, outstanding: 0.01, dueInDays: 10 },
+  { product: "Flow Lite", amsGWp: 220, amsClients: "Client Q, R", saasGWp: 260, saasClients: "Client S", annualExpectedBilling: 0.22, invoiceRaised: 0.21, outstanding: 0.01, dueInDays: -3 },
+  { product: "Pulse", amsGWp: 310, amsClients: "Client T", saasGWp: 340, saasClients: "Client U, V", annualExpectedBilling: 0.31, invoiceRaised: 0.30, outstanding: 0.01, dueInDays: 18 },
+  { product: "Horizon", amsGWp: 190, amsClients: "Client W, X", saasGWp: 220, saasClients: "Client Y", annualExpectedBilling: 0.19, invoiceRaised: 0.18, outstanding: 0.01, dueInDays: 5 },
 ];
 
 export const SaaSSection = () => {
@@ -107,7 +107,6 @@ export const SaaSSection = () => {
             </TableHeader>
             <TableBody>
               {saasProducts.map((product, index) => {
-                const variance = ((product.actual - product.expected) / product.expected) * 100;
                 return (
                   <TableRow key={index} className="hover:bg-[#F0FDF4]">
                     <TableCell className="font-medium text-[#001F3F]">{product.product}</TableCell>
@@ -116,15 +115,16 @@ export const SaaSSection = () => {
                     <TableCell className="text-right text-[#444444]">{product.saasGWp} MW</TableCell>
                     <TableCell className="text-[#444444] text-xs">{product.saasClients}</TableCell>
                     <TableCell className="text-right text-[#001F3F] font-semibold">
-                      {formatCurrency(product.expected, currencyUnit)}
+                      {formatCurrency(product.annualExpectedBilling, currencyUnit)}
                     </TableCell>
                     <TableCell className="text-right text-[#001F3F] font-semibold">
-                      {formatCurrency(product.actual, currencyUnit)}
+                      {formatCurrency(product.invoiceRaised, currencyUnit)}
                     </TableCell>
-                    <TableCell className="text-right">
-                      <span className={variance >= 0 ? "text-[rgb(0,168,107)] font-semibold" : "text-[#E63946] font-semibold"}>
-                        {variance >= 0 ? "+" : ""}{variance.toFixed(1)}%
-                      </span>
+                    <TableCell className="text-right text-[#001F3F] font-semibold">
+                      {formatCurrency(product.outstanding, currencyUnit)}
+                    </TableCell>
+                    <TableCell className={`text-right font-semibold ${product.dueInDays >= 0 ? 'text-[rgb(0,168,107)]' : 'text-[#E63946]'}`}>
+                      {product.dueInDays}
                     </TableCell>
                   </TableRow>
                 );

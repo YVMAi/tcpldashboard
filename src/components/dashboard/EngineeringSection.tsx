@@ -34,40 +34,50 @@ const engineeringData = [
     type: "Tech DD",
     status: "Active",
     manpower: 8,
-    expected: 3.2,
-    actual: 3.0,
+    annualExpectedBilling: 3.2,
+    invoiceRaised: 2.9,
+    outstanding: 0.3,
+    dueInDays: 10,
   },
   {
     client: "Vikram Solar",
     type: "LIE Mandates",
     status: "Active",
     manpower: 6,
-    expected: 2.4,
-    actual: 2.5,
+    annualExpectedBilling: 2.4,
+    invoiceRaised: 2.3,
+    outstanding: 0.1,
+    dueInDays: 5,
   },
   {
     client: "Waaree Energies",
     type: "AM Engineering",
     status: "Completed",
     manpower: 5,
-    expected: 1.8,
-    actual: 1.9,
+    annualExpectedBilling: 1.8,
+    invoiceRaised: 1.7,
+    outstanding: 0.1,
+    dueInDays: -3,
   },
   {
     client: "First Solar",
     type: "Design Engineering",
     status: "Active",
     manpower: 7,
-    expected: 2.8,
-    actual: 2.6,
+    annualExpectedBilling: 2.8,
+    invoiceRaised: 2.5,
+    outstanding: 0.3,
+    dueInDays: 20,
   },
   {
     client: "Canadian Solar",
     type: "Tech DD",
     status: "Active",
     manpower: 6,
-    expected: 2.2,
-    actual: 2.4,
+    annualExpectedBilling: 2.2,
+    invoiceRaised: 2.0,
+    outstanding: 0.2,
+    dueInDays: -7,
   },
 ];
 
@@ -134,8 +144,10 @@ export const EngineeringSection = () => {
                 <TableHead className="font-semibold text-[#001F3F]">Mandate Type</TableHead>
                 <TableHead className="font-semibold text-[#001F3F]">Status</TableHead>
                 <TableHead className="font-semibold text-[#001F3F]">Manpower</TableHead>
-                <TableHead className="font-semibold text-[#001F3F] text-right">Expected Revenue</TableHead>
-                <TableHead className="font-semibold text-[#001F3F] text-right">Actual Revenue</TableHead>
+                <TableHead className="font-semibold text-[#001F3F] text-right">Annual Expected Billing {formatCurrency(1, currencyUnit).replace(/[\d.]/g, '')}</TableHead>
+                <TableHead className="font-semibold text-[#001F3F] text-right">Invoice Raised till Date {formatCurrency(1, currencyUnit).replace(/[\d.]/g, '')}</TableHead>
+                <TableHead className="font-semibold text-[#001F3F] text-right">Outstanding {formatCurrency(1, currencyUnit).replace(/[\d.]/g, '')}</TableHead>
+                <TableHead className="font-semibold text-[#001F3F] text-right">Due in Days</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -161,10 +173,16 @@ export const EngineeringSection = () => {
                   </TableCell>
                   <TableCell className="text-[#444444]">{item.manpower}</TableCell>
                   <TableCell className="text-right text-[#001F3F] font-semibold">
-                    {formatCurrency(item.expected, currencyUnit)}
+                    {formatCurrency(item.annualExpectedBilling, currencyUnit)}
                   </TableCell>
                   <TableCell className="text-right text-[#001F3F] font-semibold">
-                    {formatCurrency(item.actual, currencyUnit)}
+                    {formatCurrency(item.invoiceRaised, currencyUnit)}
+                  </TableCell>
+                  <TableCell className="text-right text-[#001F3F] font-semibold">
+                    {formatCurrency(item.outstanding, currencyUnit)}
+                  </TableCell>
+                  <TableCell className={`text-right font-semibold ${item.dueInDays >= 0 ? 'text-[rgb(0,168,107)]' : 'text-[#E63946]'}`}>
+                    {item.dueInDays}
                   </TableCell>
                 </TableRow>
               ))}
