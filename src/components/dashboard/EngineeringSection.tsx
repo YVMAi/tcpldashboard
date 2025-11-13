@@ -31,7 +31,7 @@ const revenueData = [
 const engineeringData = [
   {
     client: "Sterling & Wilson",
-    type: "Engineering",
+    type: "Tech DD",
     status: "Active",
     manpower: 8,
     expected: 3.2,
@@ -39,7 +39,7 @@ const engineeringData = [
   },
   {
     client: "Vikram Solar",
-    type: "Engineering",
+    type: "LIE Mandates",
     status: "Active",
     manpower: 6,
     expected: 2.4,
@@ -47,7 +47,7 @@ const engineeringData = [
   },
   {
     client: "Waaree Energies",
-    type: "Engineering",
+    type: "AM Engineering",
     status: "Completed",
     manpower: 5,
     expected: 1.8,
@@ -55,7 +55,7 @@ const engineeringData = [
   },
   {
     client: "First Solar",
-    type: "Engineering",
+    type: "Design Engineering",
     status: "Active",
     manpower: 7,
     expected: 2.8,
@@ -63,7 +63,7 @@ const engineeringData = [
   },
   {
     client: "Canadian Solar",
-    type: "Engineering",
+    type: "Tech DD",
     status: "Active",
     manpower: 6,
     expected: 2.2,
