@@ -42,37 +42,34 @@ export const MetricCard = ({
           </p>
         </div>
 
-        {/* Secondary Metrics - Gauges */}
-        <div className="flex justify-around items-center gap-2 py-2">
-          {secondaryMetrics.slice(0, 2).map((metric, index) => {
-            // Extract numeric value from formatted string like "₹42.30Cr"
-            const numericValue = parseFloat(metric.value.replace(/[₹,CrL]/g, '')) || 0;
-            const maxValue = index === 0 ? 100 : 20; // Revenue YTD max 100, Receivables max 20
+        {/* Single Speedometer with Revenue YTD */}
+        <div className="flex justify-center py-2">
+          {(() => {
+            const revenueMetric = secondaryMetrics[0];
+            const numericValue = parseFloat(revenueMetric.value.replace(/[₹,CrL]/g, '')) || 0;
+            const maxValue = 100;
             
             return (
               <GaugeChart
-                key={index}
                 value={numericValue}
                 max={maxValue}
-                label={metric.label}
-                valueLabel={metric.value}
-                size={90}
+                label={revenueMetric.label}
+                valueLabel={revenueMetric.value}
+                size={110}
               />
             );
-          })}
+          })()}
         </div>
         
-        {/* Additional Metrics (if more than 2) */}
-        {secondaryMetrics.length > 2 && (
-          <div className="space-y-0.5 pt-2 border-t border-[#E5E7EB]">
-            {secondaryMetrics.slice(2).map((metric, index) => (
-              <div key={index} className="flex justify-between items-center">
-                <span className="text-[10px] text-[#444444]">{metric.label}:</span>
-                <span className="text-xs font-semibold text-[#001F3F]">{metric.value}</span>
-              </div>
-            ))}
-          </div>
-        )}
+        {/* Other Metrics Below */}
+        <div className="space-y-0.5 pt-2 border-t border-[#E5E7EB]">
+          {secondaryMetrics.slice(1).map((metric, index) => (
+            <div key={index} className="flex justify-between items-center">
+              <span className="text-[10px] text-[#444444]">{metric.label}:</span>
+              <span className="text-xs font-semibold text-[#001F3F]">{metric.value}</span>
+            </div>
+          ))}
+        </div>
 
         {/* YoY Comparison */}
         <div className={cn(
