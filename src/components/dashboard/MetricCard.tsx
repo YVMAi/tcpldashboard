@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { GaugeChart } from "./GaugeChart";
+import { DualGaugeChart } from "./DualGaugeChart";
 
 interface MetricCardProps {
   title: string;
@@ -42,34 +42,40 @@ export const MetricCard = ({
           </p>
         </div>
 
-        {/* Single Speedometer with Revenue YTD */}
+        {/* Dual Speedometer with Revenue YTD and Receivables */}
         <div className="flex justify-center py-2">
           {(() => {
-            const revenueMetric = secondaryMetrics[0];
-            const numericValue = parseFloat(revenueMetric.value.replace(/[₹,CrL]/g, '')) || 0;
-            const maxValue = 100;
+            const revenueMetric = secondaryMetrics[0] || { label: "Revenue YTD", value: "₹0.00Cr" };
+            const receivableMetric = secondaryMetrics[1] || { label: "Receivables", value: "₹0.00Cr" };
+            
+            const revenueValue = parseFloat(revenueMetric.value.replace(/[₹,CrL]/g, '')) || 0;
+            const receivableValue = parseFloat(receivableMetric.value.replace(/[₹,CrL]/g, '')) || 0;
             
             return (
-              <GaugeChart
-                value={numericValue}
-                max={maxValue}
-                label={revenueMetric.label}
-                valueLabel={revenueMetric.value}
-                size={110}
+              <DualGaugeChart
+                revenueValue={revenueValue}
+                revenueLabel={revenueMetric.value}
+                receivableValue={receivableValue}
+                receivableLabel={receivableMetric.value}
+                revenueMax={100}
+                receivableMax={20}
+                size={130}
               />
             );
           })()}
         </div>
         
         {/* Other Metrics Below */}
-        <div className="space-y-0.5 pt-2 border-t border-[#E5E7EB]">
-          {secondaryMetrics.slice(1).map((metric, index) => (
-            <div key={index} className="flex justify-between items-center">
-              <span className="text-[10px] text-[#444444]">{metric.label}:</span>
-              <span className="text-xs font-semibold text-[#001F3F]">{metric.value}</span>
-            </div>
-          ))}
-        </div>
+        {secondaryMetrics.length > 2 && (
+          <div className="space-y-0.5 pt-2 border-t border-[#E5E7EB]">
+            {secondaryMetrics.slice(2).map((metric, index) => (
+              <div key={index} className="flex justify-between items-center">
+                <span className="text-[10px] text-[#444444]">{metric.label}:</span>
+                <span className="text-xs font-semibold text-[#001F3F]">{metric.value}</span>
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* YoY Comparison */}
         <div className={cn(
